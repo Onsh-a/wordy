@@ -7,11 +7,11 @@ const mongoose = require('mongoose')
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true })
 const db = mongoose.connection
 db.on('error', (error) => console.error(error))
-db.once('open', () => console.log('Connected to Database'))
+db.once('open', () => console.log(`Connected to Database on port ${process.env.DATABASE_PORT}`))
 
 app.use(express.json())
 
-const subscribersRouter = require('./routes/subscribers')
-app.use('/subscribers', subscribersRouter)
+const wordyRoutes = require('./routes/api')
+app.use('/wordy', wordyRoutes)
 
-app.listen(3000, () => console.log('Server Started'))
+app.listen(process.env.DATABASE_PORT, () => console.log('Server Started'))

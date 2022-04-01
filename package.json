@@ -4,15 +4,25 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "devStart": "nodemon server.js"
+    "startDB": "brew services start mongodb-community@5.0",
+    "checkDB": "brew services list",
+    "stopDB": "brew services stop mongodb-community@5.0",
+    "serve": "nodemon server.js",
+    "vueServe": "vue-cli-service serve"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@vue/cli": "^5.0.4",
+    "axios": "^0.26.1",
     "express": "^4.16.4",
-    "mongoose": "^5.5.7"
+    "mongoose": "^5.5.7",
+    "vue": "2.6",
+    "vue-template-compiler": "^2.6.14",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
+    "@vue/cli-service": "^5.0.4",
     "dotenv": "^8.0.0",
     "nodemon": "^1.19.0"
   }

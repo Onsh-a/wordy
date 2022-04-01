@@ -1,38 +1,38 @@
 const express = require('express')
 const router = express.Router()
-const Subscriber = require('../models/subscriber')
+const Pair = require('../models/pair')
 
 // Getting all
 router.get('/', async (req, res) => {
   try {
-    const subscribers = await Subscriber.find()
-    res.json(subscribers)
+    const pairs = await Pair.find()
+    res.json(pairs);
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
 })
 
 // Getting One
-router.get('/:id', getSubscriber, (req, res) => {
+router.get('/:id', getPair, (req, res) => {
   res.json(res.subscriber)
 })
 
 // Creating one
 router.post('/', async (req, res) => {
-  const subscriber = new Subscriber({
-    name: req.body.name,
-    subscribedToChannel: req.body.subscribedToChannel
+  const pair = new Pair({
+    russian: req.body.russian,
+    english: req.body.english
   })
   try {
-    const newSubscriber = await subscriber.save()
-    res.status(201).json(newSubscriber)
+    const newPair = await pair.save()
+    res.status(201).json(newPair)
   } catch (err) {
     res.status(400).json({ message: err.message })
   }
 })
 
 // Updating One
-router.patch('/:id', getSubscriber, async (req, res) => {
+router.patch('/:id', getPair, async (req, res) => {
   if (req.body.name != null) {
     res.subscriber.name = req.body.name
   }
@@ -48,27 +48,27 @@ router.patch('/:id', getSubscriber, async (req, res) => {
 })
 
 // Deleting One
-router.delete('/:id', getSubscriber, async (req, res) => {
+router.delete('/:id', getPair, async (req, res) => {
   try {
-    await res.subscriber.remove()
-    res.json({ message: 'Deleted Subscriber' })
+    await res.pair.remove()
+    res.json({ message: 'Pair deleted' })
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
 })
 
-async function getSubscriber(req, res, next) {
-  let subscriber
+async function getPair(req, res, next) {
+  let pair
   try {
-    subscriber = await Subscriber.findById(req.params.id)
-    if (subscriber == null) {
-      return res.status(404).json({ message: 'Cannot find subscriber' })
+    pair = await Pair.findById(req.params.id)
+    if (pair == null) {
+      return res.status(404).json({ message: 'Cannot find word pair' })
     }
   } catch (err) {
     return res.status(500).json({ message: err.message })
   }
 
-  res.subscriber = subscriber
+  res.pair = pair
   next()
 }
 

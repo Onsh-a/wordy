@@ -1,0 +1,16 @@
+# query all the data
+GET http://localhost:8081/wordy
+
+### 
+# adding one
+POST http://localhost:8081/wordy
+Content-Type: application/json
+
+{
+  "russian": "bruise",
+  "english": ["синяк", "помятость на растениях"]
+}
+
+###
+deleting the pair
+DELETE http://localhost:3000/wordy/623f0566ad59eb7b73dcaa41
