@@ -4,9 +4,19 @@
       <h3 class="modal__title">{{ popupData.type === 'create' ? 'Новый перевод' : 'Редактирование' }}</h3>
       <div class="modal__edit">
         <label class="modal__edit-label" for="modal__edit-english">English</label>
-        <input class="modal__edit-input" type="text" id="modal__edit-english" :value="currentPair.english" @input="updateEnglish">
+        <input class="modal__edit-input"
+               ref="english"
+               type="text"
+               autocomplete="off"
+               id="modal__edit-english"
+               :value="currentPair.english"
+               @input="updateEnglish">
         <label class="modal__edit-label" for="modal__edit-russian">Russian</label>
-        <input class="modal__edit-input" type="text" id='modal__edit-russian' :value="currentPair.russian" @input="updateRussian">
+        <input class="modal__edit-input"
+               type="text"
+               id='modal__edit-russian'
+               :value="currentPair.russian"
+               @input="updateRussian">
       </div>
       <button class="modal__close" @click='handleClose'>Закрыть</button>
       <button class="modal__save" @click='handleSave'>Сохранить</button>
@@ -31,7 +41,6 @@ export default {
         type: this.$store.state.popup.type,
       }
     },
-
     currentPair: {
       get: function() {
         let id = this.$store.state.currentId;
@@ -74,6 +83,13 @@ export default {
         })
       }
     }
+  },
+  updated() {
+    this.$nextTick(() => {
+      setTimeout(() => {
+        this.$refs.english.focus()
+      }, 500)
+    });
   }
 };
 </script>
