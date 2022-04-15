@@ -12,14 +12,13 @@
 
 <script>
 import vocabularyItem from './vocabularyItem'
-import editPopup from './editPopup'
-import EditPopup from './editPopup.vue'
+import editPopup from './ui/uiPopup.vue'
 
 export default {
   name: 'vocabularyList',
   components: {
     vocabularyItem,
-    editPopup
+    editPopup,
   },
   props: {
     vocabulary: Array,

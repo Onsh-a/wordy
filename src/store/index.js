@@ -5,7 +5,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    vocabulary: []
+    vocabulary: [],
+    isPopupActive: false,
+    currentId: ''
   },
   actions: {
     getData({ commit }) {
@@ -27,6 +29,15 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err);
         });
+    },
+    editPair({ commit }, data) {
+      fetch(`/wordy/${data.id}`, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: "PATCH",
+        body: JSON.stringify( { russian: data.russian, english: data.english }) 
+      })
     }
   },
   modules: {
@@ -34,6 +45,15 @@ export default new Vuex.Store({
   mutations: {
     setVocabulary(state, data) {
       state.vocabulary = data;
+    },
+
+    handlePopup(state, data) {
+      if (data.type === 'edit') {
+        state.isPopupActive = true;
+        state.currentId = data.id;
+      } else {
+        state.isPopupActive = false;
+      }
     }
   },
 })

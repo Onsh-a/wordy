@@ -33,15 +33,15 @@ router.post('/', async (req, res) => {
 
 // Updating One
 router.patch('/:id', getPair, async (req, res) => {
-  if (req.body.name != null) {
-    res.subscriber.name = req.body.name
+  if (req.body.russian != null) {
+    res.pair.russian = req.body.russian
   }
-  if (req.body.subscribedToChannel != null) {
-    res.subscriber.subscribedToChannel = req.body.subscribedToChannel
+  if (req.body.english != null) {
+    res.pair.english = req.body.english
   }
   try {
-    const updatedSubscriber = await res.subscriber.save()
-    res.json(updatedSubscriber)
+    const updatedPair = await res.pair.save()
+    res.json(updatedPair)
   } catch (err) {
     res.status(400).json({ message: err.message })
   }

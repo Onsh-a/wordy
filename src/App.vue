@@ -1,16 +1,19 @@
 <template>
   <div id="app">
+    <vocabulary-header></vocabulary-header>
     <vocabulary-list v-bind:vocabulary="vocabulary"></vocabulary-list>
   </div>
 </template>
 
 <script>
 import vocabularyList from "./components/vocabularyList.vue"
+import vocabularyHeader from "./components/vocabularyHeader.vue"
 
 export default {
   name: "App",
   components: {
     vocabularyList,
+    vocabularyHeader,
   },
   methods: {},
   computed: {
@@ -26,12 +29,20 @@ export default {
 </script>
 
 <style>
+@font-face {
+  font-family: Nunito;
+  src: url(/src/assets/font/Nunito-Regular.ttf);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: Nunito, serif;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

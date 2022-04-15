@@ -1,36 +1,29 @@
 <template>
   <div class='pair__item'>
-    <div class='pair__russian'>
-      {{ pair.russian }}
-    </div>
-
     <div class='pair__english'>
       {{ pair.english | makeString }}
     </div>
 
+    <div class='pair__russian'>
+      {{ pair.russian | makeString }}
+    </div>
+
     <div class='pair__controls'>
-      <control-btn type="edit" @click='edit' />
-      <control-btn type="del" />
+      <control-btn :options="{ type: 'edit' }" :id='pair._id' />
+      <control-btn :options="{ type: 'delete'}" :id='pair._id' />
     </div>
   </div>
 </template>
 
 <script>
-import controlBtn from "./controlBtn.vue"
+import controlBtn from "./ui/uiButton.vue"
 
 export default {
-  name: 'vocabularyItem',
   components: {
     controlBtn,
   },
   props: {
     pair: Object
-  },
-  methods: {
-    edit(pair) {
-      console.log('pair')
-    }
-  
   },
   filters: {
     makeString(data) {
@@ -52,7 +45,7 @@ export default {
     padding: 10px 15px;
   }
 
-  .pair__russian {
+  .pair__english {
     border-right: 1px solid black;
   }
 

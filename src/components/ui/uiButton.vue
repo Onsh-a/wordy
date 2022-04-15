@@ -1,15 +1,23 @@
 <template>
-  <button :class='type'></button>
+  <button :class='options.type' @click='handleClick'></button>
 </template>
 
 <script>
 
 export default {
-  name: 'controlBtn',
   props: {
-    type: String
+    options: Object,
+    id: String,
   },
   methods: {
+    handleClick({ commit }){
+      if (this.options.type === 'edit') {
+        this.$store.commit('handlePopup', { 
+          type: this.options.type,
+          id: this.id 
+        })
+      }      
+    }
   
   },
 }
@@ -34,9 +42,7 @@ export default {
     filter: opacity(80%);
   }
 
-
-
-  .del {
+  .delete {
     background-image: url(/src/assets/icons/trash.svg); 
   }
 
