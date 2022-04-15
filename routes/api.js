@@ -51,9 +51,16 @@ router.patch('/:id', getPair, async (req, res) => {
 router.delete('/:id', getPair, async (req, res) => {
   try {
     await res.pair.remove()
-    res.json({ message: 'Pair deleted' })
+    res.json({
+      success: true,
+      message: 'Element successfully deleted',
+      id: res.pair._id
+    })
   } catch (err) {
-    res.status(500).json({ message: err.message })
+    res.status(500).json({
+      success: false,
+      message: err.message
+    })
   }
 })
 

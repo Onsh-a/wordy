@@ -10,13 +10,16 @@ export default {
     id: String,
   },
   methods: {
-    handleClick({ commit }){
-      if (this.options.type === 'edit') {
-        this.$store.commit('handlePopup', { 
-          type: this.options.type,
-          id: this.id 
+    handleClick({ commit, dispatch }){
+      this.$store.commit('handlePopup', {
+        type: this.options.type,
+        id: this.id
+      })
+      if (this.options.type === 'delete') {
+        this.$store.dispatch('deletePair', {
+          id: this.id,
         })
-      }      
+      }
     }
   },
 }
@@ -42,13 +45,13 @@ export default {
   }
 
   .delete {
-    background-image: url(/src/assets/icons/trash.svg); 
+    background-image: url(/src/assets/icons/trash.svg);
   }
 
   .edit {
     background-image: url(/src/assets/icons/edit.svg);
     margin-right: 10px;
   }
-  
+
 
 </style>
