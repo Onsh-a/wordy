@@ -1,7 +1,7 @@
 <template>
-  <div class="modal" :class="isPopupActive ? 'modal--open' : ''">
+  <div class="modal" :class="popupData.isActive ? 'modal--open' : ''">
     <div class="modal__container">
-      <h3 class="modal__title">Редактирование:</h3>
+      <h3 class="modal__title">{{ popupData.type === 'create' ? 'Новый перевод' : 'Редактирование' }}</h3>
       <div class="modal__edit">
         <label class="modal__edit-label" for="modal__edit-english">English</label>
         <input class="modal__edit-input" type="text" id="modal__edit-english" :value="currentPair.english" @input="updateEnglish">
@@ -20,13 +20,16 @@ export default {
     return {
       newData: {
         russian: null,
-        english: null 
+        english: null
       }
     }
   },
   computed: {
-    isPopupActive() {
-      return this.$store.state.isPopupActive
+    popupData() {
+      return {
+        isActive: this.$store.state.popup.isActive,
+        type: this.$store.state.popup.type,
+      }
     },
 
     currentPair: {
@@ -35,7 +38,7 @@ export default {
         if (!id) return { russian: '', english: '' }
 
         let currentData = this.$store.state.vocabulary.filter((item) => item._id === id);
-        
+
         currentData = {
           russian: currentData[0]?.russian.join(', '),
           english: currentData[0]?.english.join(', '),
@@ -56,11 +59,20 @@ export default {
       this.newData.english = e.target.value;
     },
     handleSave() {
-      this.$store.dispatch('editPair', {
-        id: this.$store.state.currentId,
-        russian: this.newData.russian,
-        english: this.newData.english
-      })
+      const type = this.popupData.type;
+      this.handleClose();
+      if (type === 'create') {
+        this.$store.dispatch('addPair', {
+          russian: this.newData.russian,
+          english: this.newData.english
+        })
+      } else {
+        this.$store.dispatch('editPair', {
+          id: this.$store.state.currentId,
+          russian: this.newData.russian,
+          english: this.newData.english
+        })
+      }
     }
   }
 };

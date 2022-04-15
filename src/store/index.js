@@ -6,29 +6,27 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     vocabulary: [],
-    isPopupActive: false,
+    popup: {
+      isActive: false,
+      type: ''
+    },
     currentId: ''
   },
   actions: {
     getData({ commit }) {
       fetch("/wordy", {
         method: "GET",
-      })
-        .then((response) => {
+      }).then((response) => {
           if (response.ok) {
             return response.json();
           } else {
-            console.log(
-              "Server returned " + response.status + " : " + response.statusText
-            );
+            console.warn("Server returned " + response.status + " : " + response.statusText);
           }
-        })
-        .then((data) => {
+        }).then((data) => {
           commit('setVocabulary', data)
-        })
-        .catch((err) => {
+        }).catch((err) => {
           console.log(err);
-        });
+      });
     },
     editPair({ commit }, data) {
       fetch(`/wordy/${data.id}`, {
@@ -36,7 +34,16 @@ export default new Vuex.Store({
           'Content-Type': 'application/json'
         },
         method: "PATCH",
-        body: JSON.stringify( { russian: data.russian, english: data.english }) 
+        body: JSON.stringify( { russian: data.russian, english: data.english })
+      })
+    },
+    addPair({ commit }, data) {
+      fetch('/wordy/', {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify( { russian: data.russian, english: data.english })
       })
     }
   },
@@ -48,11 +55,14 @@ export default new Vuex.Store({
     },
 
     handlePopup(state, data) {
-      if (data.type === 'edit') {
-        state.isPopupActive = true;
+      state.popup.type = data.type;
+      if (data.type === 'create') {
+        state.popup.isActive = true;
+      } else if (data.type === 'edit') {
+        state.popup.isActive = true;
         state.currentId = data.id;
       } else {
-        state.isPopupActive = false;
+        state.popup.isActive = false;
       }
     }
   },
