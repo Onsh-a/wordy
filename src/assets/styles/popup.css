@@ -62,10 +62,11 @@
 
 .modal__container {
   position: relative;
-  min-width: 430px;
-  padding: 30px 10px 30px;
+  min-width: 350px;
+  padding: 30px 20px 30px;
+  border-radius: 20px;
   margin: 0 auto;
-  background-color: #fff;
+  background-color: #FFFFFF;
 }
 
 .modal__edit {
