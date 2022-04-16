@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <toaster></toaster>
-    <vocabulary-header></vocabulary-header>
-    <vocabulary-list v-bind:vocabulary="vocabulary"></vocabulary-list>
+    <toaster/>
+    <vocabulary-header/>
+    <vocabulary-list :vocabulary="getVocabulary"/>
   </div>
 </template>
 
@@ -20,11 +20,11 @@ export default {
   },
   methods: {},
   computed: {
-    vocabulary() {
+    getVocabulary() {
       return this.$store.state.vocabulary
     }
   },
-  
+
   mounted() {
     this.$store.dispatch('getData');
   },
@@ -32,6 +32,8 @@ export default {
 </script>
 
 <style>
+@import url(/src/assets/styles/common.css);
+
 @font-face {
   font-family: Nunito;
   src: url(/src/assets/font/Nunito-Regular.ttf);
@@ -49,5 +51,4 @@ body {
   color: #2c3e50;
 }
 
-@import url(/src/assets/styles/common.css);
 </style>
