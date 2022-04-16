@@ -5,7 +5,7 @@
     <div class='pair__container'>
       <vocabulary-item v-for='pair in vocabulary' :pair="pair" :key="pair._id"></vocabulary-item>
     </div>
-    
+
 
   </div>
 </template>
@@ -23,9 +23,7 @@ export default {
   props: {
     vocabulary: Array,
   },
-  methods: {
-  
-  }
+  methods: {}
 }
 </script>
 
@@ -40,6 +38,7 @@ export default {
 
   .pair__container {
     border: 1px solid black;
+    margin-bottom: 40px;
   }
 
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <toaster></toaster>
     <vocabulary-header></vocabulary-header>
     <vocabulary-list v-bind:vocabulary="vocabulary"></vocabulary-list>
   </div>
@@ -8,12 +9,14 @@
 <script>
 import vocabularyList from "./components/vocabularyList.vue"
 import vocabularyHeader from "./components/vocabularyHeader.vue"
+import toaster from "./components/ui/uiToaster.vue"
 
 export default {
   name: "App",
   components: {
     vocabularyList,
     vocabularyHeader,
+    toaster,
   },
   methods: {},
   computed: {

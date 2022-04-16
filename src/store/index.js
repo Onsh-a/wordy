@@ -35,7 +35,22 @@ export default new Vuex.Store({
         },
         method: "PATCH",
         body: JSON.stringify( { russian: data.russian, english: data.english })
-      })
+      }).then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          console.warn("Server returned " + response.status + " : " + response.statusText);
+        }
+      }).then((resData) => {
+        this.state.vocabulary.forEach(item => {
+          if (item._id === resData._id) {
+            item.english = resData.english
+            item.russian = resData.russian
+          }
+        })
+      }).catch((err) => {
+        console.log(err);
+      });
     },
     addPair({ commit }, data) {
       fetch('/wordy/', {
