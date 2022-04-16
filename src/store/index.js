@@ -10,6 +10,13 @@ export default new Vuex.Store({
       isActive: false,
       type: ''
     },
+    toaster: {
+      options: {
+        isActive: false,
+        type: undefined,
+        success: undefined,
+      }
+    },
     currentId: ''
   },
   actions: {
@@ -42,6 +49,7 @@ export default new Vuex.Store({
           console.warn("Server returned " + response.status + " : " + response.statusText);
         }
       }).then((resData) => {
+        commit('handleToaster', { isActive: true, type: 'edit', success: true })
         this.state.vocabulary.forEach(item => {
           if (item._id === resData._id) {
             item.english = resData.english
@@ -66,6 +74,7 @@ export default new Vuex.Store({
           console.warn("Server returned " + response.status + " : " + response.statusText);
         }
       }).then((data) => {
+        commit('handleToaster', { isActive: true, type: 'create', success: true })
         this.state.vocabulary.push(data);
       }).catch((err) => {
         console.log(err);
@@ -84,19 +93,23 @@ export default new Vuex.Store({
           console.warn("Server returned " + response.status + " : " + response.statusText);
         }
       }).then((data) => {
+        commit('handleToaster', { isActive: true, type: 'delete', success: true })
         this.state.vocabulary = this.state.vocabulary.filter(item => item._id !== data.id)
       }).catch((err) => {
         console.log(err);
       });
     }
   },
-  modules: {
-  },
+  modules: {},
   mutations: {
     setVocabulary(state, data) {
       state.vocabulary = data;
     },
-
+    handleToaster(state, data) {
+      state.toaster.options.isActive = data.isActive;
+      state.toaster.options.type = data.type;
+      state.toaster.options.success= data.success;
+    },
     handlePopup(state, data) {
       state.popup.type = data.type;
       if (data.type === 'create') {
