@@ -14,6 +14,7 @@
         <label class="modal__edit-label" for="modal__edit-russian">Russian</label>
         <input class="modal__edit-input"
                type="text"
+               autocomplete="off"
                id='modal__edit-russian'
                :value="currentPair.russian"
                @input="updateRussian">
