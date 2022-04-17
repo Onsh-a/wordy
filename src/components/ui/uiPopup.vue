@@ -4,7 +4,7 @@
       <h3 class="modal__title">{{ popupData.type === 'create' ? 'Новый перевод' : 'Редактирование' }}</h3>
       <div class="modal__edit">
         <ui-popup-input ref="english" :isActive="popupData.isActive" :word="popupData.pair.english"
-                        :part="'Английский'" :handler="updateEnglish"/>
+                        part="Английский" :handler="updateEnglish"/>
         <ui-popup-input v-for="(word, part, index) in popupData.pair.russian"
                         :key="index" :word="word" :part="part" :handler="updateRussian"/>
       </div>
