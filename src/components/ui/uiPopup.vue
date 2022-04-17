@@ -3,25 +3,10 @@
     <div class="modal__container">
       <h3 class="modal__title">{{ popupData.type === 'create' ? 'Новый перевод' : 'Редактирование' }}</h3>
       <div class="modal__edit">
-        <label class="modal__edit-label" for="modal__edit-english">Английский</label>
-        <input class="modal__edit-input"
-               ref="english"
-               type="text"
-               autocomplete="off"
-               id="modal__edit-english"
-               :value="popupData.pair.english"
-               @input="updateEnglish">
-        <div v-for="(word, part, index) in popupData.pair.russian" :key="index">
-          <label class="modal__edit-label" for="modal__edit-noun">{{ part }}</label>
-          <input class="modal__edit-input"
-                 :data-part="part"
-                 ref="trans_input"
-                 type="text"
-                 autocomplete="off"
-                 id='modal__edit-noun'
-                 :value="word"
-                 @input="updateRussian">
-        </div>
+        <ui-popup-input ref="english" :isActive="popupData.isActive" :word="popupData.pair.english"
+                        :part="'Английский'" :handler="updateEnglish"/>
+        <ui-popup-input v-for="(word, part, index) in popupData.pair.russian"
+                        :key="index" :word="word" :part="part" :handler="updateRussian"/>
       </div>
       <button class="modal__save" @click='handleSave'>Сохранить</button>
       <button class="modal__close" @click='handleClose'>Закрыть</button>
@@ -30,6 +15,8 @@
 </template>
 
 <script>
+import uiPopupInput from "./uiPopupInput";
+
 class Translation {
   constructor(data = {}) {
     this.noun = data.noun ? data.noun : null;
@@ -40,6 +27,9 @@ class Translation {
 }
 
 export default {
+  components: {
+    uiPopupInput,
+  },
   data() {
     return {
       newData: {
@@ -106,12 +96,6 @@ export default {
   },
   updated() {
     this.newData = JSON.parse(JSON.stringify(this.popupData.pair));
-
-    this.$nextTick(() => {
-      setTimeout(() => {
-        this.$refs.english.focus()
-      }, 300)
-    });
   }
 }
 </script>
