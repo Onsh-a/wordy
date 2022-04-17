@@ -1,6 +1,7 @@
-const setVocabulary = (state, data) => {
-	state.vocabulary = data;
-}
+const setVocabulary = (state, data) => state.vocabulary = data
+const handleSearch = (state, data) => state.search = data
+const handleSort = (state, data) => state.ascending = data
+
 const handleToaster = (state, data) => {
 	state.toaster.options.isActive = data.isActive;
 	state.toaster.options.type = data.type;
@@ -26,4 +27,6 @@ export default {
 	setVocabulary,
 	handleToaster,
 	handlePopup,
+	handleSearch,
+	handleSort
 };

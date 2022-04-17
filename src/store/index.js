@@ -19,9 +19,10 @@ export default new Vuex.Store({
         success: undefined,
       }
     },
-    currentId: ''
+    currentId: '',
+    search: '',
+    ascending: true
   },
   actions,
-  modules: {},
   mutations,
 })

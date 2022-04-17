@@ -16,7 +16,7 @@ export default {
           setTimeout(() => {
             this.$refs.english.focus()
           }, 500)
-        }, 300)
+        })
       }
     }
   }

@@ -51,9 +51,16 @@ header {
   right: 20px;
   top: 50%;
   transform: translateY(-50%);
-  background: #FFFFFF;
+  background: #2c3e50;
+  border: 2px solid #FFFFFF;
+  color: #FFFFFF;
   border-radius: 10px;
   cursor: pointer;
+  transition: .2s;
+}
+
+.header__add:hover {
+  opacity: 80%;
 }
 
 h2 {

@@ -40,7 +40,7 @@ export default {
 
   .pair__item div {
     text-align: left;
-    padding: 10px 15px;
+    padding: 10px 10px 10px 15px;
   }
 
   .pair__english {
