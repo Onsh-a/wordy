@@ -16,7 +16,7 @@
   transition: .2s;
 }
 
-.modal--open {
+.modal.active {
   opacity: 1;
   visibility: visible;
 }
@@ -88,6 +88,7 @@
   font-size: 16px;
   line-height: 21px;
   color: #2c3e50;
+  width: 100%;
 }
 
 .modal__save {

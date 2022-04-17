@@ -37,12 +37,24 @@ export default {
 @font-face {
   font-family: Nunito;
   src: url(/src/assets/font/Nunito-Regular.ttf);
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: Nunito;
+  src: url(/src/assets/font/Nunito-SemiBold.ttf);
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: Nunito;
+  src: url(/src/assets/font/Nunito-ExtraLight.ttf);
+  font-weight: 300;
 }
 
 body {
   margin: 0;
   padding: 0;
-
 }
 
 #app {

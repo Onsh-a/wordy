@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const pairSchema = new mongoose.Schema({
   russian: {
-    type: Array,
+    type: Object,
     required: true
   },
   english: {
