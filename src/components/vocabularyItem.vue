@@ -1,11 +1,14 @@
 <template>
   <div class='pair__item'>
     <div class='pair__english'>
-      {{ pair.english | makeString }}
+      {{ pair.english.toString() }}
     </div>
 
     <div class='pair__russian'>
-      {{ pair.russian | makeString }}
+      <div class="pair__russian-wrapper" v-for='(translation, part) in pair.russian' :key="part" v-if="translation">
+        <div class="pair__russian-part">{{ part }}</div>
+        <div class="pair__russian-translation">{{ translation }}</div>
+      </div>
     </div>
 
     <div class='pair__controls'>
@@ -25,11 +28,6 @@ export default {
   props: {
     pair: Object
   },
-  filters: {
-    makeString(data) {
-      return data.join(', ')
-    }
-  }
 }
 </script>
 
@@ -47,10 +45,11 @@ export default {
 
   .pair__english {
     border-right: 1px solid black;
+    font-weight: 300;
   }
 
   .pair__russian,
-  .pair__english { 
+  .pair__english {
     width: 40%;
   }
 
@@ -64,5 +63,24 @@ export default {
   .pair__item:not(:last-child) {
     border-bottom: 1px solid black;
   }
+
+  .pair__item .pair__russian-translation,
+  .pair__item .pair__russian-part,
+  .pair__item .pair__russian-wrapper {
+    margin: 0;
+    padding: 0;
+  }
+
+  .pair__item .pair__russian-part {
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+
+  .pair__item .pair__russian-translation {
+    font-weight: 300;
+    margin-bottom: 15px;
+  }
+
+
 
 </style>

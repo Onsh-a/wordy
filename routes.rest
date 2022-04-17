@@ -7,7 +7,7 @@ POST http://localhost:8081/wordy
 Content-Type: application/json
 
 {
-  "russian": "bruise",
+  "russian": { "noun": "asd", "verb": "asd" },
   "english": ["синяк", "помятость на растениях"]
 }
 

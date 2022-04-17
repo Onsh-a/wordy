@@ -18,6 +18,7 @@ const handlePopup = (state, data) => {
 		state.currentId = data.id;
 	} else {
 		state.popup.isActive = false;
+		state.currentId = '';
 	}
 }
 
