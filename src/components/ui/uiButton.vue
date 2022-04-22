@@ -26,7 +26,7 @@ export default {
 </script>
 
 
-<style scoped>
+<style scoped lang="scss">
   button {
     width: 40px;
     height: 40px;
@@ -35,23 +35,25 @@ export default {
     background-size: 50%;
     background-position: 50% 50%;
     background-repeat: no-repeat;
-    background-color: #b19387;
+    background-color: $base-color;
     cursor: pointer;
     transition: .2s;
+
+    &:hover {
+      filter: opacity(80%);
+    }
+
+    &.delete {
+      background-image: url(/src/assets/icons/trash.svg);
+    }
+
+    &.edit {
+      background-image: url(/src/assets/icons/edit.svg);
+      margin-right: 10px;
+    }
   }
 
-  button:hover {
-    filter: opacity(80%);
-  }
 
-  .delete {
-    background-image: url(/src/assets/icons/trash.svg);
-  }
-
-  .edit {
-    background-image: url(/src/assets/icons/edit.svg);
-    margin-right: 10px;
-  }
 
 
 </style>
