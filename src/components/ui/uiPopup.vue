@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" :class="{ active: popupData.isActive }">
+  <div class="modal" @keydown.esc="handleClose" :class="{ active: popupData.isActive }">
     <div class="modal__container">
       <h3 class="modal__title">{{ popupData.type === 'create' ? 'Новый перевод' : 'Редактирование' }}</h3>
       <div class="modal__edit">
