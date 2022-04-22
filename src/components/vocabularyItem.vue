@@ -38,52 +38,54 @@ export default {
 </script>
 
 
-<style scoped>
-  .pair__item {
-    display: flex;
-    width: 100%;
-  }
+<style scoped lang="scss">
+  .pair {
+    &__item {
+      display: flex;
+      width: 100%;
 
-  .pair__item div {
-    text-align: left;
-    padding: 10px 10px 10px 15px;
-  }
+      div {
+        text-align: left;
+        padding: 10px 10px 10px 15px;
+      }
+    }
 
-  .pair__foreign {
-    border-right: 1px solid black;
-    font-weight: 300;
-  }
+    &__foreign {
+      border-right: 1px solid black;
+      font-weight: 300;
+    }
 
-  .pair__russian,
-  .pair__foreign {
-    width: 40%;
-  }
+    &__russian,
+    &__foreign {
+      width: 40%;
+    }
 
-  .pair__controls {
-    width: 20%;
-    min-width: 120px;
-    display: flex;
-    justify-content: flex-end;
-  }
+    &__controls {
+      width: 20%;
+      min-width: 120px;
+      display: flex;
+      justify-content: flex-end;
+    }
 
-  .pair__item:not(:last-child) {
-    border-bottom: 1px solid black;
-  }
+    &__item:not(:last-child) {
+      border-bottom: 1px solid black;
+    }
 
-  .pair__item .pair__russian-translation,
-  .pair__item .pair__russian-part,
-  .pair__item .pair__russian-wrapper {
-    margin: 0;
-    padding: 0;
-  }
+    &__item .pair__russian-translation,
+    &__item .pair__russian-part,
+    &__item .pair__russian-wrapper {
+      margin: 0;
+      padding: 0;
+    }
 
-  .pair__item .pair__russian-part {
-    font-weight: 700;
-    margin-bottom: 5px;
-  }
+    &__item .pair__russian-part {
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
 
-  .pair__item .pair__russian-translation {
-    font-weight: 300;
-    margin-bottom: 15px;
+    &__item .pair__russian-translation {
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
   }
 </style>
