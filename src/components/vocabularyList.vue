@@ -35,11 +35,6 @@ export default {
 </script>
 
 <style>
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
 
 .pair__container {
   border: 1px solid black;

@@ -40,17 +40,21 @@ export default {
     margin-bottom: 40px;
     height: 60px;
 
+    .container {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      align-items: center;
+    }
+
     &__add {
       display: flex;
       justify-content: center;
       align-items: center;
       height: 30px;
       width: 200px;
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: #2c3e50;
+      //position: absolute;
+      background: $secondary-color;
       border: 2px solid #FFFFFF;
       color: #FFFFFF;
       border-radius: 10px;
@@ -63,14 +67,12 @@ export default {
     }
 
     &__lang-toggle {
-      position: absolute;
+      //position: absolute;
       left: 20px;
       display: flex;
       justify-content: center;
       align-content: center;
-      top: 50%;
-      transform: translateY(-50%);
-      background: #2c3e50;
+      background: $secondary-color;
       border: 2px solid #FFFFFF;
       color: #FFFFFF;
       border-radius: 10px;
@@ -86,14 +88,6 @@ export default {
       color: #ffffff;
       margin: 0;
     }
-  }
-
-  .container {
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 20px;
-    position: relative;
   }
 
 </style>

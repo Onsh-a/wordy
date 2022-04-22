@@ -30,7 +30,7 @@ export default {
 <style scoped lang="scss">
 
   .list-header {
-    background-color: #b19387;
+    background-color: $base-color;
     padding: 10px;
     display: flex;
     justify-content: space-between;
@@ -42,7 +42,7 @@ export default {
       font-weight: 300;
       font-size: 16px;
       line-height: 21px;
-      color: #2c3e50;
+      color: $secondary-color;
       width: calc(40% - 10px);
     }
 
@@ -51,7 +51,7 @@ export default {
       height: 40px;
       border: none;
       border-radius: 5px;
-      background-color: #2c3e50;
+      background-color: $secondary-color;
       background-size: 20px;
       background-repeat: no-repeat;
       background-position: 50%;
