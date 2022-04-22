@@ -1,11 +1,11 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
-const pairSchema = new mongoose.Schema({
+const englishPairSchema = new mongoose.Schema({
   russian: {
     type: Object,
     required: true
   },
-  english: {
+  foreign: {
     type: Array,
     required: true
   },
@@ -16,4 +16,26 @@ const pairSchema = new mongoose.Schema({
   }
 })
 
-module.exports = mongoose.model('newPair', pairSchema)
+const spanishPairSchema = new mongoose.Schema({
+  russian: {
+    type: Object,
+    required: true
+  },
+  foreign: {
+    type: Array,
+    required: true
+  },
+  createdAt: {
+    type: Date,
+    required: true,
+    default: Date.now
+  }
+})
+
+const eng = mongoose.model('eng', englishPairSchema);
+const esp = mongoose.model('sp', spanishPairSchema)
+
+export default {
+  eng,
+  esp
+}

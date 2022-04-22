@@ -1,6 +1,9 @@
 const setVocabulary = (state, data) => state.vocabulary = data
 const handleSearch = (state, data) => state.search = data
 const handleSort = (state, data) => state.ascending = data
+const handleLangChange = (state) => {
+	state.lang = state.lang === 'eng' ? 'esp' : 'eng'
+}
 
 const handleToaster = (state, data) => {
 	state.toaster.options.isActive = data.isActive;
@@ -28,5 +31,6 @@ export default {
 	handleToaster,
 	handlePopup,
 	handleSearch,
-	handleSort
+	handleSort,
+	handleLangChange
 };

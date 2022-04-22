@@ -3,8 +3,8 @@
     <div class="modal__container">
       <h3 class="modal__title">{{ popupData.type === 'create' ? 'Новый перевод' : 'Редактирование' }}</h3>
       <div class="modal__edit">
-        <ui-popup-input ref="english" :isActive="popupData.isActive" :word="popupData.pair.english"
-                        part="Английский" :handler="updateEnglish"/>
+        <ui-popup-input ref="english" :isActive="popupData.isActive" :word="popupData.pair.foreign"
+                        :part="dictionary[popupData.lang]" :handler="updateForeign"/>
         <ui-popup-input v-for="(word, part, index) in popupData.pair.russian"
                         :key="index" :word="word" :part="part" :handler="updateRussian"/>
       </div>
@@ -16,6 +16,7 @@
 
 <script>
 import uiPopupInput from "./uiPopupInput";
+import transl from "./../../assets/utils/translation"
 
 class Translation {
   constructor(data = {}) {
@@ -32,6 +33,7 @@ export default {
   },
   data() {
     return {
+      dictionary: transl,
       newData: {
         russian: {
           noun: null,
@@ -39,30 +41,32 @@ export default {
           adjective: null,
           other: null,
         },
-        english: null
+        foreign: null
       }
     }
   },
   computed: {
     popupData() {
-      let id = this.$store.state.currentId;
+      const id = this.$store.state.currentId;
       if (!id) return {
         isActive: this.$store.state.popup.isActive,
         type: this.$store.state.popup.type,
-        pair: {english: '', russian: new Translation()}
+        pair: {foreign: '', russian: new Translation()},
+        lang: this.$store.state.lang
       }
 
       let currentData = this.$store.state.vocabulary.filter((item) => item._id === id);
 
       currentData = {
         russian: currentData[0]?.russian,
-        english: currentData[0]?.english,
+        foreign: currentData[0]?.foreign,
       }
 
       return {
         isActive: this.$store.state.popup.isActive,
         type: this.$store.state.popup.type,
-        pair: currentData
+        pair: currentData,
+        lang: this.$store.state.lang
       }
     },
   },
@@ -73,21 +77,22 @@ export default {
     updateRussian(e) {
       this.newData.russian[e.target.dataset.part] = e.target.value;
     },
-    updateEnglish(e) {
-      this.newData.english = e.target.value;
+    updateForeign(e) {
+      this.newData.foreign = e.target.value;
     },
     handleSave() {
       const translation = new Translation(this.newData.russian)
       const type = this.popupData.type;
       if (type === 'create') {
         this.$store.dispatch('addPair', {
-          english: this.newData.english,
+          lang: this.popupData.lang,
+          foreign: this.newData.foreign,
           russian: translation
         })
       } else {
         this.$store.dispatch('editPair', {
           id: this.$store.state.currentId,
-          english: this.newData.english,
+          foreign: this.newData.foreign,
           russian: translation
         })
       }

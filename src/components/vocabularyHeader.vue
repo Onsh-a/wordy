@@ -1,6 +1,7 @@
 <template>
   <header class='header'>
     <div class="container">
+      <div @click='toggleCurrentLang' class="lang-toggle">{{ getCurrentLang }}</div>
       <h2 class='header__logo'>Wordy</h2>
       <button @click.prevent="createNew" class='header__add'>Добавить слово</button>
     </div>
@@ -12,13 +13,19 @@ export default {
   data() {
     return {}
   },
-  computed: {},
+  computed: {
+    getCurrentLang() {
+      return this.$store.state.lang
+    }
+  },
   methods: {
     createNew({commit}) {
       this.$store.commit('handlePopup', {
         type: 'create',
       })
-    }
+    },
+    toggleCurrentLang({ dispatch }) {
+      this.$store.dispatch('changeLang', )}
   }
 };
 </script>
@@ -67,6 +74,25 @@ h2 {
   font-size: 32px;
   color: #ffffff;
   margin: 0;
+}
+
+.lang-toggle {
+  position: absolute;
+  left: 20px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #2c3e50;
+  border: 2px solid #FFFFFF;
+  color: #FFFFFF;
+  border-radius: 10px;
+  bottom: 50%;
+  height: 30px;
+  width: 50px;
+  cursor: pointer;
+  user-select: none;
 }
 
 </style>
