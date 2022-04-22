@@ -36,11 +36,7 @@ export default {
 }
 </script>
 
-<style scoped>
-
-.container {
-  position: relative;
-}
+<style scoped lang="scss">
 
 .toaster {
   position: fixed;
@@ -55,29 +51,29 @@ export default {
   border-radius: 5px;
   opacity: 0;
   transition: .4s;
-}
 
-.toaster__icon {
-  width: 30px;
-  height: 30px;
-  background-image: url("/src/assets/icons/check-icon.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  flex: 1 0 40px;
-  margin-left: 10px;
-}
+  &__icon {
+    width: 30px;
+    height: 30px;
+    background-image: url("/src/assets/icons/check-icon.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    flex: 1 0 40px;
+    margin-left: 10px;
+  }
 
-.toaster__message {
-  text-align: left;
-  padding-left: 8px;
-}
+  &__message {
+    text-align: left;
+    padding-left: 8px;
+  }
 
-.toaster.success {
-  background: #d6eddd;
-}
+  &.success {
+    background: #d6eddd;
+  }
 
-.toaster.active {
-  opacity: 1;
+  &.active {
+    opacity: 1;
+  }
 }
 
 </style>
