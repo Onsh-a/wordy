@@ -1,21 +1,22 @@
 # query all the data
 GET http://localhost:8081/wordy
 
-### 
+###
 # adding one
 POST http://localhost:8081/wordy
 Content-Type: application/json
 
 {
-  "russian": { "noun": "asd", "verb": "asd" },
-  "english": ["синяк", "помятость на растениях"]
+  "lang": "esp",
+  "russian": { "noun": "here", "verb": "are" },
+  "spanish": ["english", "worsds"]
 }
 
 ###
 deleting the pair
 DELETE http://localhost:8081/wordy/623f0566ad59eb7b73dcaa41
 
-### 
+###
 
 PATCH http://localhost:8081/wordy/623effed212b0b7a8d694d91
 Content-Type: application/json

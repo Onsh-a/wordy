@@ -1,12 +1,12 @@
 <template>
   <div class='pair__item'>
-    <div class='pair__english'>
-      {{ pair.english.toString() }}
+    <div class='pair__foreign'>
+      {{ pair.foreign.toString() }}
     </div>
 
     <div class='pair__russian'>
       <div class="pair__russian-wrapper" v-for='(translation, part) in pair.russian' :key="part" v-if="translation">
-        <div class="pair__russian-part">{{ part }}</div>
+        <div class="pair__russian-part">{{ dictionary[part] }}</div>
         <div class="pair__russian-translation">{{ translation }}</div>
       </div>
     </div>
@@ -20,8 +20,14 @@
 
 <script>
 import controlBtn from "./ui/uiButton.vue"
+import transl from "./../../src/assets/utils/translation"
 
 export default {
+  data(){
+    return {
+      dictionary: transl
+    }
+  },
   components: {
     controlBtn,
   },
@@ -43,13 +49,13 @@ export default {
     padding: 10px 10px 10px 15px;
   }
 
-  .pair__english {
+  .pair__foreign {
     border-right: 1px solid black;
     font-weight: 300;
   }
 
   .pair__russian,
-  .pair__english {
+  .pair__foreign {
     width: 40%;
   }
 
@@ -80,7 +86,4 @@ export default {
     font-weight: 300;
     margin-bottom: 15px;
   }
-
-
-
 </style>

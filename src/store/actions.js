@@ -1,5 +1,7 @@
-const getData = ({ commit } ) =>  {
-	fetch("/wordy", {
+const PATH = 'http://localhost:8081'
+
+const getData = ({ commit, state }) =>  {
+	fetch(`${PATH}/wordy?lang=${state.lang}`, {
 		method: "GET",
 	}).then((response) => {
 		if (response.ok) {
@@ -8,19 +10,22 @@ const getData = ({ commit } ) =>  {
 			console.warn("Server returned " + response.status + " : " + response.statusText);
 		}
 	}).then((data) => {
-		commit('setVocabulary', data)
+		commit('setVocabulary', data.data)
 	}).catch((err) => {
 		console.warn(err);
 	});
 }
 
+const changeLang = ({ commit, state }) => {
+	commit('handleLangChange');
+	getData({ commit, state });
+}
+
 const editPair = ({ commit, state }, data) => {
-	fetch(`/wordy/${data.id}`, {
-		headers: {
-			'Content-Type': 'application/json'
-		},
+	fetch(`${PATH}/wordy/${data.id}?lang=${state.lang}`, {
+		headers: { 'Content-Type': 'application/json' },
 		method: "PATCH",
-		body: JSON.stringify( { russian: data.russian, english: data.english })
+		body: JSON.stringify( { lang: state.lang, russian: data.russian, foreign: data.foreign })
 	}).then((response) => {
 		if (response.ok) {
 			return response.json();
@@ -41,12 +46,10 @@ const editPair = ({ commit, state }, data) => {
 }
 
 const addPair = ({ commit, state }, data) => {
-	fetch('/wordy/', {
-		headers: {
-			'Content-Type': 'application/json'
-		},
+	fetch(`${PATH}/wordy/`, {
+		headers: { 'Content-Type': 'application/json' },
 		method: "POST",
-		body: JSON.stringify( { russian: data.russian, english: data.english })
+		body: JSON.stringify( { lang: data.lang, russian: data.russian, foreign: data.foreign })
 	}).then((response) => {
 		if (response.ok) {
 			return response.json();
@@ -55,23 +58,21 @@ const addPair = ({ commit, state }, data) => {
 		}
 	}).then((data) => {
 		commit('handleToaster', { isActive: true, type: 'create', success: true })
-		state.vocabulary.push(data);
+		state.vocabulary.push(data.newPair);
 	}).catch((err) => {
 		console.warn(err);
 	});
 }
 
 const deletePair = ({ commit, state }, data) => {
-	fetch(`/wordy/${data.id}`, {
-		headers: {
-			'Content-Type': 'application/json'
-		},
+	fetch(`${PATH}/wordy/${data.id}?lang=${state.lang}`, {
+		headers: { 'Content-Type': 'application/json' },
 		method: "DELETE",
-	}).then((response) => {
-		if (response.ok) {
-			return response.json();
+	}).then((res) => {
+		if (res.ok) {
+			return res.json();
 		} else {
-			console.warn("Server returned " + response.status + " : " + response.statusText);
+			console.warn("Server returned " + res.status + " : " + res.statusText);
 		}
 	}).then((data) => {
 		commit('handleToaster', { isActive: true, type: 'delete', success: true })
@@ -85,5 +86,6 @@ export default {
 	getData,
 	editPair,
 	addPair,
-	deletePair
+	deletePair,
+	changeLang
 };

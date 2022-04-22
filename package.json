@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "startDB": "brew services start mongodb-community@5.0",
     "checkDB": "brew services list",
@@ -14,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@vue/cli": "^5.0.4",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "mongoose": "^5.5.7",
     "vue": "2.6",
