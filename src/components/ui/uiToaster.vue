@@ -29,7 +29,7 @@ export default {
   },
   methods: {},
   updated() {
-    setTimeout(() => {
+    setTimeout(() => { // timeout to let the animation pass
       this.$store.commit('handleToaster', { isActive: false, type: undefined, success: undefined });
     }, 2000)
   }
@@ -51,6 +51,7 @@ export default {
   border-radius: 5px;
   opacity: 0;
   transition: .4s;
+  z-index: 10;
 
   &__icon {
     width: 30px;

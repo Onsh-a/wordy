@@ -1,11 +1,87 @@
 import express from 'express'
-import schemas from '../models/pair.js'
+import bcrypt from 'bcryptjs'
+import UserModel from '../models/User.js'
+import PairModels from '../models/Pair.js'
 export const router = express.Router();
+
+// Signin
+router.post('/signin', async (req, res) => {
+  // check if the user with such an email already exists
+  try {
+    const emailExists = await UserModel.findOne({ email: req.body.email });
+    const loginExists = await UserModel.findOne({ login: req.body.login });
+    if (emailExists || loginExists) return res.status(500).json({
+      success: false,
+      message: `Пользователь с таким ${emailExists ? 'email' : 'логином'} уже зарегестрирован`
+    })
+
+    //hashing the password
+    const salt = await bcrypt.genSalt(10);
+    const hashPwd = await bcrypt.hash(req.body.pwd, salt);
+
+    // creating new user
+    const User = new UserModel({
+      name: req.body.name,
+      login: req.body.login,
+      email: req.body.email,
+      password: hashPwd,
+    });
+    await User.save()
+    res.status(200).json({
+      success: true,
+      message: 'Пользователь успешно создан',
+      user: User
+    })
+
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: 'Во время создание пользователя произошла ошибка',
+    })
+  }
+})
+
+// login
+router.post('/login', async (req, res) => {
+  // check if the user with such an email already exists
+  try {
+    const login = req.body.login;
+    const user = await UserModel.findOne({ login: login })
+
+    if (!user) {
+      res.status(200).json({
+        success: false,
+        message: 'пользователь c таким логином не найден'
+      });
+    }
+
+    // comparing the pwd
+    const validPwd = await bcrypt.compare(req.body.pwd, user.password);
+    if (!validPwd) {
+      res.status(200).json({
+        success: false,
+        message: 'Указан неверный пароль',
+      })
+    } else {
+      res.status(200).json({
+        success: true,
+        message: 'Вы успешно авторизованы!',
+      })
+    }
+
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: 'Во время авторизации произошла ошибка',
+      serverMessage: err.message
+    })
+  }
+})
 
 // Getting all
 router.get('/', async (req, res) => {
   try {
-    let pairs = await schemas[req.query.lang].find();
+    let pairs = await PairModels[req.query.lang].find();
     res.json({
       success: true,
       data: pairs
@@ -18,15 +94,10 @@ router.get('/', async (req, res) => {
   }
 })
 
-// Getting One
-router.get('/:id', getPair, (req, res) => {
-  res.json(res.subscriber)
-})
-
 // Creating one
 router.post('/', async (req, res) => {
   try {
-    let pair = new schemas[req.body.lang]({
+    let pair = new PairModels[req.body.lang]({
       russian: req.body.russian,
       foreign: req.body.foreign
     })
@@ -80,7 +151,7 @@ router.delete('/:id', getPair, async (req, res) => {
 async function getPair(req, res, next) {
   let pair
   try {
-    pair = await schemas[req.query.lang].findById(req.params.id)
+    pair = await PairModels[req.query.lang].findById(req.params.id)
     if (pair == null) {
       return res.status(404).json({
         success: false,

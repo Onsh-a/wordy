@@ -20,7 +20,11 @@ const handlePopup = (state, data) => {
 		state.currentId = data.id;
 	} else if (data.type === 'delete') {
 		state.currentId = data.id;
+	} else if (data.type === 'auth') {
+		state.popup.isActive = true
+		state.auth.authType = data.authType
 	} else {
+		// closing the popup
 		state.popup.isActive = false;
 		state.currentId = '';
 	}

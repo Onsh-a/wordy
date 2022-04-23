@@ -13,6 +13,11 @@ export default new Vuex.Store({
       isActive: false,
       type: ''
     },
+    auth: {
+      isLogged: false,
+      currentUser: null,
+      authType: undefined,
+    },
     toaster: {
       options: {
         isActive: false,

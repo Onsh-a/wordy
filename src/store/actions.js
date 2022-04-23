@@ -16,6 +16,50 @@ const getData = ({ commit, state }) =>  {
 	});
 }
 
+const signIn = ({ commit, state}, data) => {
+	fetch(`${PATH}/wordy/signin`, {
+		headers: { 'Content-Type': 'application/json' },
+		method: "POST",
+		body: JSON.stringify( {
+			name: data.name,
+			login: data.login,
+			email: data.email,
+			pwd: data.pwd
+		})
+	}).then((response) => {
+		if (response.ok) {
+			return response.json();
+		} else {
+			console.warn("Server returned " + response.status + " : " + response.statusText);
+		}
+	}).then((res) => {
+		console.log(res + 'Успешно зарегестрированы!')
+	}).catch((err) => console.warn(err))
+}
+
+const logIn = ({ commit, state}, data) => {
+	fetch(`${PATH}/wordy/login`, {
+		headers: { 'Content-Type': 'application/json' },
+		method: "POST",
+		body: JSON.stringify( {
+			login: data.login,
+			pwd: data.pwd
+		})
+	}).then((response) => {
+		if (response.ok) {
+			return response.json();
+		} else {
+			console.warn("Server returned " + response.status + " : " + response.statusText);
+		}
+	}).then((res) => {
+		if (res.success === true) {
+			console.log('Вы успешно авторизованы')
+		} else {
+			console.log('Произошла ошибка, ничего не получилось...')
+		}
+	}).catch((err) => console.warn(err))
+}
+
 const changeLang = ({ commit, state }) => {
 	commit('handleLangChange');
 	getData({ commit, state });
@@ -87,5 +131,7 @@ export default {
 	editPair,
 	addPair,
 	deletePair,
-	changeLang
+	changeLang,
+	signIn,
+	logIn
 };

@@ -1,15 +1,23 @@
 <template>
   <header class='header'>
     <div class="container">
-      <div @click='toggleCurrentLang' class="header__lang-toggle">{{ getCurrentLang }}</div>
+      <authControls />
       <h2 class='header__logo'>Wordy</h2>
-      <button @click.prevent="createNew" class='header__add'>Добавить слово</button>
+      <div class="header__right">
+        <button @click.prevent='toggleCurrentLang' class="header__lang-toggle">{{ getCurrentLang }}</button>
+        <button @click.prevent="createNew" class='header__add'>Добавить слово</button>
+      </div>
     </div>
   </header>
 </template>
 
 <script>
+import authControls from "./authControls";
+
 export default {
+  components: {
+    authControls,
+  },
   data() {
     return {}
   },
@@ -25,7 +33,8 @@ export default {
       })
     },
     toggleCurrentLang({ dispatch }) {
-      this.$store.dispatch('changeLang', )}
+      this.$store.dispatch('changeLang', )
+    }
   }
 };
 </script>
@@ -40,6 +49,10 @@ export default {
     margin-bottom: 40px;
     height: 60px;
 
+    &__right {
+      display: flex;
+    }
+
     .container {
       display: flex;
       justify-content: space-between;
@@ -53,10 +66,9 @@ export default {
       align-items: center;
       height: 30px;
       width: 200px;
-      //position: absolute;
       background: $secondary-color;
-      border: 2px solid #FFFFFF;
-      color: #FFFFFF;
+      border: 2px solid $border-color;
+      color: $btn-color;
       border-radius: 10px;
       cursor: pointer;
       transition: .2s;
@@ -67,20 +79,23 @@ export default {
     }
 
     &__lang-toggle {
-      //position: absolute;
-      left: 20px;
       display: flex;
       justify-content: center;
-      align-content: center;
+      align-items: center;
       background: $secondary-color;
-      border: 2px solid #FFFFFF;
-      color: #FFFFFF;
+      border: 2px solid $border-color;
+      color: $btn-color;
       border-radius: 10px;
-      bottom: 50%;
       height: 30px;
       width: 50px;
       cursor: pointer;
       user-select: none;
+      margin-right: 10px;
+      transition: .2s;
+
+      &:hover {
+        opacity: 80%;
+      }
     }
 
     &__logo {
