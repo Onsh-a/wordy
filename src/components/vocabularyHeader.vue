@@ -67,7 +67,6 @@ export default {
     }
 
     &__lang-toggle {
-      //position: absolute;
       left: 20px;
       display: flex;
       justify-content: center;
