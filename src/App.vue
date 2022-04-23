@@ -38,6 +38,9 @@ export default {
 </script>
 
 <style lang="scss">
+  body {
+    background: $base-bkg-color;
+  }
   #app {
     font-family: Nunito, serif;
     text-align: center;

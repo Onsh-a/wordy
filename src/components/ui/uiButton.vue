@@ -30,17 +30,17 @@ export default {
   button {
     width: 40px;
     height: 40px;
-    border: none;
     border-radius: 5px;
     background-size: 50%;
     background-position: 50% 50%;
     background-repeat: no-repeat;
-    background-color: $base-color;
+    background-color: $secondary-color;
+    border: 2px solid $border-color;
     cursor: pointer;
     transition: .2s;
 
     &:hover {
-      filter: opacity(80%);
+      opacity: 80%;
     }
 
     &.delete {

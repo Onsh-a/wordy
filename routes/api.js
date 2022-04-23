@@ -4,7 +4,7 @@ import UserModel from '../models/User.js'
 import PairModels from '../models/Pair.js'
 export const router = express.Router();
 
-// Registry
+// Signin
 router.post('/signin', async (req, res) => {
   // check if the user with such an email already exists
   try {
@@ -41,6 +41,7 @@ router.post('/signin', async (req, res) => {
   }
 })
 
+// login
 router.post('/login', async (req, res) => {
   // check if the user with such an email already exists
   try {
@@ -72,6 +73,7 @@ router.post('/login', async (req, res) => {
     res.status(400).json({
       success: false,
       message: 'Во время авторизации произошла ошибка',
+      serverMessage: err.message
     })
   }
 })

@@ -49,9 +49,9 @@ export default {
     &__button-sort {
       width: 40px;
       height: 40px;
-      border: none;
       border-radius: 5px;
       background-color: $secondary-color;
+      border: 2px solid $border-color;
       background-size: 20px;
       background-repeat: no-repeat;
       background-position: 50%;
