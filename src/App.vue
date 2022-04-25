@@ -3,12 +3,15 @@
     <edit-popup/>
     <toaster/>
     <vocabulary-header/>
-    <vocabularyControls/>
+    <vocabulary-controls/>
     <vocabulary-list :vocabulary="getVocabulary"/>
+    <logged-out v-if="!isUserLogged"/>
+
   </div>
 </template>
 
 <script>
+import loggedOut from "./components/loggedOut"
 import vocabularyList from "./components/vocabularyList.vue"
 import vocabularyHeader from "./components/vocabularyHeader.vue"
 import vocabularyControls from "./components/vocabularyListControls.vue"
@@ -22,16 +25,21 @@ export default {
     vocabularyControls,
     vocabularyHeader,
     toaster,
-    editPopup
+    editPopup,
+    loggedOut
   },
   methods: {},
   computed: {
     getVocabulary() {
-      return this.$store.state.vocabulary
+      return this.$store.state.vocabulary;
+    },
+    isUserLogged() {
+      return this.$store.state.auth.currentUser;
     }
   },
 
   mounted() {
+    this.$store.commit('handleCurrentUser');
     this.$store.dispatch('getData');
   },
 };
@@ -41,6 +49,7 @@ export default {
   body {
     background: $base-bkg-color;
   }
+
   #app {
     font-family: Nunito, serif;
     text-align: center;

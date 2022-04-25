@@ -5,6 +5,21 @@ const handleLangChange = (state) => {
 	state.lang = state.lang === 'eng' ? 'esp' : 'eng'
 }
 
+const handleCurrentUser = (state, data) => {
+	if (data) {
+		localStorage.setItem('session', data.id);
+		state.auth.currentUser = data.id;
+	} else {
+		let session = localStorage.getItem('session');
+		if (session) {
+			session = session || null;
+			state.auth.currentUser = session;
+		} else {
+			state.auth.currentUser = null
+		}
+	}
+}
+
 const handleToaster = (state, data) => {
 	state.toaster.options.isActive = data.isActive;
 	state.toaster.options.type = data.type;
@@ -36,5 +51,6 @@ export default {
 	handlePopup,
 	handleSearch,
 	handleSort,
-	handleLangChange
+	handleLangChange,
+	handleCurrentUser
 };

@@ -66,6 +66,7 @@ router.post('/login', async (req, res) => {
       res.status(200).json({
         success: true,
         message: 'Вы успешно авторизованы!',
+        userId: user._id
       })
     }
 
@@ -81,7 +82,8 @@ router.post('/login', async (req, res) => {
 // Getting all
 router.get('/', async (req, res) => {
   try {
-    let pairs = await PairModels[req.query.lang].find();
+    const user = req.query.user;
+    const pairs = await PairModels[req.query.lang].find({ userId: user });
     res.json({
       success: true,
       data: pairs
@@ -99,7 +101,8 @@ router.post('/', async (req, res) => {
   try {
     let pair = new PairModels[req.body.lang]({
       russian: req.body.russian,
-      foreign: req.body.foreign
+      foreign: req.body.foreign,
+      userId: req.body.userId
     })
     await pair.save()
     res.status(200).json({
