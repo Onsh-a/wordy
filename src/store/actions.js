@@ -1,7 +1,8 @@
 const PATH = 'http://localhost:8081'
 
 const getData = ({ commit, state }) =>  {
-	fetch(`${PATH}/wordy?lang=${state.lang}`, {
+	if (!state.auth.currentUser) return false
+	fetch(`${PATH}/wordy?lang=${state.lang}&user=${state.auth.currentUser}`, {
 		method: "GET",
 	}).then((response) => {
 		if (response.ok) {
@@ -37,7 +38,7 @@ const signIn = ({ commit, state}, data) => {
 	}).catch((err) => console.warn(err))
 }
 
-const logIn = ({ commit, state}, data) => {
+const logIn = ({ dispatch, commit, state}, data) => {
 	fetch(`${PATH}/wordy/login`, {
 		headers: { 'Content-Type': 'application/json' },
 		method: "POST",
@@ -53,7 +54,9 @@ const logIn = ({ commit, state}, data) => {
 		}
 	}).then((res) => {
 		if (res.success === true) {
-			console.log('Вы успешно авторизованы')
+			console.log('Вы успешно авторизованы');
+			commit('handleCurrentUser', { id: res.userId});
+			dispatch('getData');
 		} else {
 			console.log('Произошла ошибка, ничего не получилось...')
 		}
@@ -93,7 +96,12 @@ const addPair = ({ commit, state }, data) => {
 	fetch(`${PATH}/wordy/`, {
 		headers: { 'Content-Type': 'application/json' },
 		method: "POST",
-		body: JSON.stringify( { lang: data.lang, russian: data.russian, foreign: data.foreign })
+		body: JSON.stringify( {
+			lang: data.lang,
+			russian: data.russian,
+			foreign: data.foreign,
+			userId: state.auth.currentUser
+		})
 	}).then((response) => {
 		if (response.ok) {
 			return response.json();

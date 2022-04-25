@@ -2,7 +2,9 @@
   <div class="container">
     <div class='pair__container'>
       <vocabulary-item v-for='pair in getVocabulary' :pair="pair" :key="pair._id"/>
-      <div class='pair__not-found' v-if="getVocabulary.length === 0">На данный момент словарь не содрежит ничего похожего</div>
+      <div class='pair__not-found' v-if="getVocabulary.length === 0 || vocabulary.length === 0">
+        {{ vocabulary.length === 0 ? 'Пока что ваш словарь пуст' : 'На данный момент словарь не содрежит ничего похожего' }}
+      </div>
     </div>
   </div>
 </template>

@@ -1,7 +1,8 @@
 <template>
   <div class="auth">
-    <button data-type="signup" @click.prevent="openAuthPopup($event)" class="auth__signup">Sign up</button>
-    <button data-type="signin" @click.prevent="openAuthPopup($event)" class="auth__signin">Sign in</button>
+    <button v-if='!getAuthStatus' data-type="signup" @click.prevent="openAuthPopup($event)" class="auth__signup">Sign up</button>
+    <button v-if='!getAuthStatus' data-type="signin" @click.prevent="openAuthPopup($event)" class="auth__signin">Sign in</button>
+    <button v-if='getAuthStatus' data-type="logout" @click.prevent="handleLogOut" class="auth__signin">Log out</button>
   </div>
 </template>
 
@@ -10,8 +11,16 @@ export default {
   data() {
     return {}
   },
-  computed: {},
+  computed: {
+    getAuthStatus() {
+      return this.$store.state.auth.currentUser
+    }
+  },
   methods: {
+    handleLogOut() {
+      this.$store.commit('handleCurrentUser', { id: '' });
+      this.$store.commit('setVocabulary', [])
+    },
     openAuthPopup() {
       const authType = event.target.dataset.type;
       this.$store.commit('handlePopup', {
