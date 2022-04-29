@@ -4,10 +4,13 @@ import UserModel from '../models/User.js'
 import PairModels from '../models/Pair.js'
 export const router = express.Router();
 
+const sleep = (ms) => { return new Promise(resolve => setTimeout(resolve, ms))}
+
 // Signin
 router.post('/signin', async (req, res) => {
   // check if the user with such an email already exists
   try {
+    await sleep(1000);
     const emailExists = await UserModel.findOne({ email: req.body.email });
     const loginExists = await UserModel.findOne({ login: req.body.login });
     if (emailExists || loginExists) return res.status(500).json({
@@ -44,6 +47,7 @@ router.post('/signin', async (req, res) => {
 // login
 router.post('/login', async (req, res) => {
   // check if the user with such an email already exists
+  await sleep(1000);
   try {
     const login = req.body.login;
     const user = await UserModel.findOne({ login: login })
@@ -51,7 +55,7 @@ router.post('/login', async (req, res) => {
     if (!user) {
       res.status(200).json({
         success: false,
-        message: 'пользователь c таким логином не найден'
+        message: 'Пользователь c таким логином не найден'
       });
     }
 
@@ -65,6 +69,7 @@ router.post('/login', async (req, res) => {
     } else {
       res.status(200).json({
         success: true,
+        userName: user.name,
         message: 'Вы успешно авторизованы!',
         userId: user._id
       })

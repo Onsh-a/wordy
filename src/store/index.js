@@ -11,7 +11,8 @@ export default new Vuex.Store({
     lang: 'eng',
     popup: {
       isActive: false,
-      type: ''
+      type: '',
+      errors: [],
     },
     auth: {
       isLogged: false,
@@ -24,6 +25,9 @@ export default new Vuex.Store({
         type: undefined,
         success: undefined,
       }
+    },
+    asyncManagement: {
+      pending: false,
     },
     currentId: '',
     search: '',

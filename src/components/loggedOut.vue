@@ -16,7 +16,6 @@
 <script>
 
 export default {
-  components: {},
   methods: {
     handleAuth(e) {
       this.$store.commit('handlePopup', {
@@ -74,6 +73,13 @@ export default {
     border: 2px solid $base-color;
     font-size: 16px;
     padding: 6px 0;
+    cursor: pointer;
+    transition: .2s;
+    color: $btn-color;
+
+    &:hover {
+      background-color: $secondary-color;
+    }
 
     &:not(:last-child) {
       margin-bottom: 10px;

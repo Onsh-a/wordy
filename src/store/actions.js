@@ -1,5 +1,8 @@
 const PATH = 'http://localhost:8081'
 
+// sleep function used for debug purpuses
+const sleep = (ms) => { return new Promise(resolve => setTimeout(resolve, ms))}
+
 const getData = ({ commit, state }) =>  {
 	if (!state.auth.currentUser) return false
 	fetch(`${PATH}/wordy?lang=${state.lang}&user=${state.auth.currentUser}`, {
@@ -18,6 +21,7 @@ const getData = ({ commit, state }) =>  {
 }
 
 const signIn = ({ commit, state}, data) => {
+	commit('togglePending', true);
 	fetch(`${PATH}/wordy/signin`, {
 		headers: { 'Content-Type': 'application/json' },
 		method: "POST",
@@ -28,6 +32,7 @@ const signIn = ({ commit, state}, data) => {
 			pwd: data.pwd
 		})
 	}).then((response) => {
+		commit('togglePending', false);
 		if (response.ok) {
 			return response.json();
 		} else {
@@ -38,7 +43,8 @@ const signIn = ({ commit, state}, data) => {
 	}).catch((err) => console.warn(err))
 }
 
-const logIn = ({ dispatch, commit, state}, data) => {
+const logIn = ({ dispatch, commit, state }, data) => {
+	commit('togglePending', true);
 	fetch(`${PATH}/wordy/login`, {
 		headers: { 'Content-Type': 'application/json' },
 		method: "POST",
@@ -47,6 +53,7 @@ const logIn = ({ dispatch, commit, state}, data) => {
 			pwd: data.pwd
 		})
 	}).then((response) => {
+		commit('togglePending', false);
 		if (response.ok) {
 			return response.json();
 		} else {
@@ -58,6 +65,7 @@ const logIn = ({ dispatch, commit, state}, data) => {
 			commit('handleCurrentUser', { id: res.userId});
 			dispatch('getData');
 		} else {
+			commit('handleErrorMessages', res.message);
 			console.log('Произошла ошибка, ничего не получилось...')
 		}
 	}).catch((err) => console.warn(err))
