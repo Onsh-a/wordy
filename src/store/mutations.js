@@ -1,9 +1,9 @@
 const setVocabulary = (state, data) => state.vocabulary = data
 const handleSearch = (state, data) => state.search = data
 const handleSort = (state, data) => state.ascending = data
-const handleLangChange = (state) => {
-	state.lang = state.lang === 'eng' ? 'esp' : 'eng'
-}
+const handleLangChange = (state) => state.lang = state.lang === 'eng' ? 'esp' : 'eng'
+const togglePending = (state, data) => data ? state.asyncManagement.pending = data : !state.asyncManagement.pending
+const handleErrorMessages = (state, data) => state.popup.errors = data ? data : null;
 
 const handleCurrentUser = (state, data) => {
 	if (data) {
@@ -52,5 +52,7 @@ export default {
 	handleSearch,
 	handleSort,
 	handleLangChange,
-	handleCurrentUser
+	handleCurrentUser,
+	togglePending,
+	handleErrorMessages
 };

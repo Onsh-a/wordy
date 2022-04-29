@@ -4,7 +4,10 @@ const dictionary = {
   noun: 'сущ',
   verb: 'глаг',
   adjective: 'прил',
-  other: 'другое'
+  other: 'другое',
+  name: 'Имя',
+  login: 'Логин',
+  pwd: 'Пароль'
 }
 
 export default dictionary
