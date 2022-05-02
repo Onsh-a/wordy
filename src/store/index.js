@@ -15,8 +15,8 @@ export default new Vuex.Store({
       errors: [],
     },
     auth: {
-      isLogged: false,
-      currentUser: null,
+      userId: null,
+      userName: undefined,
       authType: undefined,
     },
     toaster: {

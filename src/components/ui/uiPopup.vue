@@ -2,7 +2,7 @@
   <div class="modal" @keydown.esc="handleClose" :class="{ active: popupData.isActive }">
     <popupErrors :errors="popupData.errors" v-if="popupData.errors.length > 0" />
     <authModule :authType="popupData.authType" v-if="popupData.type === 'auth'" :popupClose="handleClose"/>
-    <authSuccessModule v-else-if="popupData.type === 'auth-success'" :popupClose="handleClose"/>
+    <authSuccessModule v-else-if="popupData.type === 'auth-success'" :userName="popupData.userName" :popupClose="handleClose"/>
     <createEditModule v-else :popupClose="handleClose"/>
   </div>
 </template>
@@ -27,6 +27,7 @@ export default {
         type: this.$store.state.popup.type,
         authType: this.$store.state.auth.authType ?? null,
         errors: this.$store.state.popup.errors,
+        userName: this.$store.state.auth.userName,
       }
     }
   },

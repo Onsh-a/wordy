@@ -1,11 +1,8 @@
 const PATH = 'http://localhost:8081'
 
-// sleep function used for debug purpuses
-const sleep = (ms) => { return new Promise(resolve => setTimeout(resolve, ms))}
-
 const getData = ({ commit, state }) =>  {
-	if (!state.auth.currentUser) return false
-	fetch(`${PATH}/wordy?lang=${state.lang}&user=${state.auth.currentUser}`, {
+	if (!state.auth.userId) return false
+	fetch(`${PATH}/wordy?lang=${state.lang}&user=${state.auth.userId}`, {
 		method: "GET",
 	}).then((response) => {
 		if (response.ok) {
@@ -32,14 +29,23 @@ const signIn = ({ commit, state}, data) => {
 			pwd: data.pwd
 		})
 	}).then((response) => {
-		commit('togglePending', false);
-		if (response.ok) {
-			return response.json();
-		} else {
-			console.warn("Server returned " + response.status + " : " + response.statusText);
-		}
+		return response.json();
 	}).then((res) => {
-		console.log(res + 'Успешно зарегестрированы!')
+		commit('togglePending', false);
+		if (res.success === true) {
+			commit('handleCurrentUser', {id: res.userId});
+			commit('handleAuth', {
+				success: res.success,
+				userName: res.userName,
+				message: res.message
+			});
+			commit('getData');
+		} else {
+			commit('handleAuth', {
+				success: res.success,
+				message: res.message
+			});
+		}
 	}).catch((err) => console.warn(err))
 }
 
@@ -53,20 +59,26 @@ const logIn = ({ dispatch, commit, state }, data) => {
 			pwd: data.pwd
 		})
 	}).then((response) => {
-		commit('togglePending', false);
 		if (response.ok) {
 			return response.json();
 		} else {
 			console.warn("Server returned " + response.status + " : " + response.statusText);
 		}
 	}).then((res) => {
+		commit('togglePending', false);
 		if (res.success === true) {
-			console.log('Вы успешно авторизованы');
 			commit('handleCurrentUser', { id: res.userId});
+			commit('handleAuth', {
+				success: res.success,
+				userName: res.userName,
+				message: res.message
+			});
 			dispatch('getData');
 		} else {
-			commit('handleErrorMessages', res.message);
-			console.log('Произошла ошибка, ничего не получилось...')
+			commit('handleAuth', {
+				success: res.success,
+				message: res.message
+			});
 		}
 	}).catch((err) => console.warn(err))
 }
@@ -108,7 +120,7 @@ const addPair = ({ commit, state }, data) => {
 			lang: data.lang,
 			russian: data.russian,
 			foreign: data.foreign,
-			userId: state.auth.currentUser
+			userId: state.auth.userId
 		})
 	}).then((response) => {
 		if (response.ok) {

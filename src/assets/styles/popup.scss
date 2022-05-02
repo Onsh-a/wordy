@@ -99,6 +99,7 @@
   border: none;
   color: #FFFFFF;
   padding: 8px 15px;
+  cursor: pointer;
 }
 
 .modal-error {
@@ -106,7 +107,7 @@
   border: 1px solid #943734;
   max-width: 350px;
   width: 100%;
-  padding: 30px 20px 30px 35px;
+  padding: 20px 20px 20px 35px;
   margin: 0 auto 10px;
   border-radius: 20px;
   color: #943734;
@@ -118,7 +119,7 @@
   content: '';
   position: absolute;
   left: -8px;
-  top: 50%;
+  top: 10px;
   width: 5px;
   height: 5px;
   border-radius: 50%;

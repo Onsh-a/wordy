@@ -13,7 +13,7 @@ router.post('/signin', async (req, res) => {
     await sleep(1000);
     const emailExists = await UserModel.findOne({ email: req.body.email });
     const loginExists = await UserModel.findOne({ login: req.body.login });
-    if (emailExists || loginExists) return res.status(500).json({
+    if (emailExists || loginExists) return res.status(400).json({
       success: false,
       message: `Пользователь с таким ${emailExists ? 'email' : 'логином'} уже зарегестрирован`
     })
@@ -33,7 +33,8 @@ router.post('/signin', async (req, res) => {
     res.status(200).json({
       success: true,
       message: 'Пользователь успешно создан',
-      user: User
+      userName: User.name,
+      userId: User._id
     })
 
   } catch (err) {

@@ -6,7 +6,6 @@
     <vocabulary-controls/>
     <vocabulary-list :vocabulary="getVocabulary"/>
     <logged-out v-if="!isUserLogged"/>
-
   </div>
 </template>
 
@@ -34,7 +33,7 @@ export default {
       return this.$store.state.vocabulary;
     },
     isUserLogged() {
-      return this.$store.state.auth.currentUser;
+      return this.$store.state.auth.userId;
     }
   },
 
