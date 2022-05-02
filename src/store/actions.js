@@ -39,7 +39,7 @@ const signIn = ({ commit, state}, data) => {
 				userName: res.userName,
 				message: res.message
 			});
-			commit('getData');
+			dispatch('getData');
 		} else {
 			commit('handleAuth', {
 				success: res.success,

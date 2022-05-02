@@ -4,7 +4,7 @@
 
     <div class="modal__edit">
       <ui-popup-input ref="english" :isActive="popupData.isActive" :word="popupData.pair.foreign"
-                      :part="dictionary[popupData.lang]" :handler="updateForeign"/>
+                      :part="$translate(popupData.lang)" :handler="updateForeign"/>
       <ui-popup-input v-for="(word, part, index) in popupData.pair.russian"
                       :key="index" :word="word" :part="part" :handler="updateRussian"/>
     </div>
@@ -15,7 +15,6 @@
 
 <script>
 import uiPopupInput from "./ui/uiPopupInput";
-import transl from "/src/assets/utils/translation"
 
 class Translation {
   constructor(data = {}) {
@@ -33,7 +32,6 @@ export default {
   props: ['popupClose'],
   data() {
     return {
-      dictionary: transl,
       newData: {
         russian: {
           noun: null,

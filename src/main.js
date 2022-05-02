@@ -2,6 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 
+import translation from './assets/utils/translation';
+
+Vue.use(translation);
+
 Vue.config.productionTip = false
 
 new Vue({

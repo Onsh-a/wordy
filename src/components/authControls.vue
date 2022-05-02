@@ -8,9 +8,6 @@
 
 <script>
 export default {
-  data() {
-    return {}
-  },
   computed: {
     getAuthStatus() {
       return this.$store.state.auth.userId

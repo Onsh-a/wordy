@@ -1,9 +1,19 @@
 <template>
   <div class="modal" @keydown.esc="handleClose" :class="{ active: popupData.isActive }">
-    <popupErrors :errors="popupData.errors" v-if="popupData.errors.length > 0" />
-    <authModule :authType="popupData.authType" v-if="popupData.type === 'auth'" :popupClose="handleClose"/>
-    <authSuccessModule v-else-if="popupData.type === 'auth-success'" :userName="popupData.userName" :popupClose="handleClose"/>
-    <createEditModule v-else :popupClose="handleClose"/>
+    <popupErrors v-if="popupData.errors.length > 0"
+                 :errors="popupData.errors"/>
+
+    <authModule v-if="popupData.type === 'auth'"
+                :authType="popupData.authType"
+                :popupClose="handleClose"/>
+
+    <authSuccessModule v-else-if="popupData.type === 'auth-success'"
+                       :authType="popupData.type"
+                       :userName="popupData.userName"
+                       :popupClose="handleClose"/>
+
+    <createEditModule v-else
+                      :popupClose="handleClose"/>
   </div>
 </template>
 
