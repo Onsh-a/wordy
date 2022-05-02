@@ -6,7 +6,7 @@
 
     <div class='pair__russian'>
       <div class="pair__russian-wrapper" v-for='(translation, part) in pair.russian' :key="part">
-        <div v-if="translation" class="pair__russian-part">{{ dictionary[part] }}</div>
+        <div v-if="translation" class="pair__russian-part">{{ $translate(part) }}</div>
         <div v-if="translation" class="pair__russian-translation">{{ translation }}</div>
       </div>
     </div>
@@ -20,14 +20,8 @@
 
 <script>
 import controlBtn from "./ui/uiButton.vue"
-import transl from "./../../src/assets/utils/translation"
 
 export default {
-  data() {
-    return {
-      dictionary: transl
-    }
-  },
   components: {
     controlBtn,
   },

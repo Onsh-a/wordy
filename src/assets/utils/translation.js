@@ -1,13 +1,19 @@
-const dictionary = {
-  eng: 'английский',
-  esp: 'испанский',
-  noun: 'сущ',
-  verb: 'глаг',
-  adjective: 'прил',
-  other: 'другое',
-  name: 'Имя',
-  login: 'Логин',
-  pwd: 'Пароль'
-}
+export default {
+	install(Vue) {
+		Vue.prototype.$translate = (query) => {
+			const dictionary = {
+				eng: 'английский',
+				esp: 'испанский',
+				noun: 'сущ',
+				verb: 'глаг',
+				adjective: 'прил',
+				other: 'другое',
+				name: 'Имя',
+				login: 'Логин',
+				pwd: 'Пароль'
+			}
 
-export default dictionary
+			return dictionary.hasOwnProperty(query) ? dictionary[query] : query;
+		};
+	},
+};

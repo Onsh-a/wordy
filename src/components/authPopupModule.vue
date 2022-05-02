@@ -3,16 +3,15 @@
     <spinner :is-active="getAsyncData.pending" />
     <h3 class="modal__title"> {{ authType === 'signup' ? 'Зарегистрироваться' : 'Войти' }}</h3>
 
-    <div v-for="(entity, name, index) in getPopupSceleton" :key="name">
-      <label class="modal__edit-label" :for="`modal__${name}`">{{ getInputName(name) }}</label>
+    <div v-for="(_, name, index) in getPopupSceleton" :key="name">
+      <label class="modal__edit-label" :for="`modal__${name}`">{{ $translate(name) }}</label>
       <input class="modal__edit-input"
-             :class="{ error: getPopupSceleton[name].error.active }"
              @keydown.enter="handleSign"
              :ref="`input_${index}`"
              type="text" autocomplete="off"
              :id='`modal__${name}`'
              :data-type="name"
-             v-model="getPopupSceleton[name].data"/>
+             v-model="getPopupSceleton[name]"/>
     </div>
 
     <div v-if="getAsyncData.errorMessage" class="modal__error">
@@ -26,19 +25,8 @@
 </template>
 
 <script>
-import transl from '../assets/utils/translation';
 import utils from '../assets/utils/common';
 import spinner from './ui/uiSpinner'
-
-class inputData {
-  constructor() {
-    this.data = '';
-    this.error = {
-      active: false,
-      errorMessage: null,
-    }
-  }
-}
 
 export default {
   components: {
@@ -46,16 +34,15 @@ export default {
   },
   data() {
     return {
-      dictionary: transl,
       createUser: {
-        name: new inputData(),
-        login: new inputData(),
-        pwd: new inputData(),
-        email: new inputData(),
+        name: '',
+        login: '',
+        pwd: '',
+        email: '',
       },
       loginUser: {
-        login: new inputData(),
-        pwd: new inputData(),
+        login: '',
+        pwd: '',
       }
     }
   },
@@ -66,7 +53,7 @@ export default {
         return this.authType === "signup" ? this.createUser : this.loginUser;
       },
       set: function(newValue) {
-        this.getPopupSceleton.error = newValue;
+        this.getPopupSceleton = newValue;
       }
     },
     getAsyncData() {
@@ -74,21 +61,18 @@ export default {
     }
   },
   methods: {
-    getInputName(name) {
-      return this.dictionary.hasOwnProperty(name) ? this.dictionary[name] : name;
-    },
     validatePopup(clearError = false) {
       const errors = [];
       for (let key in this.getPopupSceleton) {
         const input = this.getPopupSceleton[key];
 
-        if (input.data === 'email') {
-          if (!utils._validateEmail(this.getPopupSceleton[current].data)) {
+        if (key === 'email') {
+          if (!utils._validateEmail(input)) {
             errors.push(`Введен еmail неверноего формата`);
           }
         } else {
-          if (input.data.length < 1) {
-            errors.push(`Поле ${this.getInputName(key)} должно быть заполнено`);
+          if (input.length < 1) {
+            errors.push(`Поле ${this.$translate(key)} должно быть заполнено`);
           }
         }
       }
@@ -101,15 +85,15 @@ export default {
       if (!this.validatePopup()) return false;
       if (this.authType === 'signup') {
         this.$store.dispatch('signIn', {
-          name: this.createUser.name.data,
-          login: this.createUser.login.data,
-          email: this.createUser.email.data,
-          pwd: this.createUser.pwd.data,
+          name: this.createUser.name,
+          login: this.createUser.login,
+          email: this.createUser.email,
+          pwd: this.createUser.pwd,
         })
       } else {
         this.$store.dispatch('logIn', {
-          login: this.loginUser.login.data,
-          pwd: this.loginUser.pwd.data,
+          login: this.loginUser.login,
+          pwd: this.loginUser.pwd,
         })
       }
     },

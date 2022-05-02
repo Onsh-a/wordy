@@ -36,7 +36,6 @@ export default {
       return this.$store.state.auth.userId;
     }
   },
-
   mounted() {
     this.$store.commit('handleCurrentUser');
     this.$store.dispatch('getData');
