@@ -13,7 +13,7 @@ export default {
   },
   computed: {
     getAuthStatus() {
-      return this.$store.state.auth.currentUser
+      return this.$store.state.auth.userId
     }
   },
   methods: {

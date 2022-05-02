@@ -2,20 +2,29 @@ const setVocabulary = (state, data) => state.vocabulary = data
 const handleSearch = (state, data) => state.search = data
 const handleSort = (state, data) => state.ascending = data
 const handleLangChange = (state) => state.lang = state.lang === 'eng' ? 'esp' : 'eng'
-const togglePending = (state, data) => data ? state.asyncManagement.pending = data : !state.asyncManagement.pending
+const togglePending = (state, data) => state.asyncManagement.pending = data ? data : !state.asyncManagement.pending;
 const handleErrorMessages = (state, data) => state.popup.errors = data ? data : null;
+const handleAuth = (state, data) => {
+	if (data.success === false) {
+		state.popup.errors.push(data.message);
+	} else {
+		state.popup.type = 'auth-success';
+		state.auth.userName = data.userName;
+		state.auth.authType = null;
+	}
+}
 
 const handleCurrentUser = (state, data) => {
 	if (data) {
 		localStorage.setItem('session', data.id);
-		state.auth.currentUser = data.id;
+		state.auth.userId = data.id;
 	} else {
 		let session = localStorage.getItem('session');
 		if (session) {
 			session = session || null;
-			state.auth.currentUser = session;
+			state.auth.userId = session;
 		} else {
-			state.auth.currentUser = null
+			state.auth.userId = null
 		}
 	}
 }
@@ -54,5 +63,6 @@ export default {
 	handleLangChange,
 	handleCurrentUser,
 	togglePending,
-	handleErrorMessages
+	handleErrorMessages,
+	handleAuth
 };
