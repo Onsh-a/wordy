@@ -117,7 +117,7 @@ router.post('/', async (req, res) => {
       newPair: pair,
     })
   } catch (err) {
-    res.status(400).json({
+    res.status(200).json({
       success: false,
       message: 'При добавлении произошла ошибка'
     })
@@ -135,10 +135,17 @@ router.patch('/:id', getPair, async (req, res) => {
   try {
     const updatedPair = await res.pair.save()
     res.json(updatedPair)
+    res.status(200).json({
+      success: true,
+      message: 'Запись успешно редактирована'
+    })
   } catch (err) {
-    res.status(400).json({ message: err.message })
+    res.status(200).json({
+      success: false,
+      message: 'При редактировании произошла ошибка'
+    })
   }
-})
+}, getPair)
 
 // Deleting One
 router.delete('/:id', getPair, async (req, res) => {
@@ -146,13 +153,13 @@ router.delete('/:id', getPair, async (req, res) => {
     await res.pair.remove()
     res.json({
       success: true,
-      message: 'Element successfully deleted',
+      message: 'Объект успешно удален',
       id: res.pair._id
     })
   } catch (err) {
-    res.status(500).json({
+    res.status(200).json({
       success: false,
-      message: "Failed to delete the pair"
+      message: "Произошла ошибка"
     })
   }
 })
@@ -161,16 +168,16 @@ async function getPair(req, res, next) {
   let pair
   try {
     pair = await PairModels[req.query.lang].findById(req.params.id)
-    if (pair == null) {
+    if (pair === null) {
       return res.status(404).json({
         success: false,
-        message: 'Пара не найдена'
+        message: 'Запись не найдена'
       })
     }
   } catch (err) {
     return res.status(500).json({
       success: false,
-      message: 'Что-то сломалось'
+      message: 'Произошла ошибка'
     })
   }
 
