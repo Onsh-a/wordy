@@ -104,9 +104,9 @@ const editPair = ({ commit, state }, data) => {
 		if (res.success === true) {
 			commit('handleToaster', { isActive: true, type: 'edit', success: true })
 			state.vocabulary.forEach(item => {
-				if (item._id === res._id) {
-					item.english = res.english
-					item.russian = res.russian
+				if (item._id === res.id) {
+					item.foreign = res.updData.foreign
+					item.russian = res.updData.russian
 				}
 			})
 		} else {

@@ -134,10 +134,11 @@ router.patch('/:id', getPair, async (req, res) => {
   }
   try {
     const updatedPair = await res.pair.save()
-    res.json(updatedPair)
     res.status(200).json({
       success: true,
-      message: 'Запись успешно редактирована'
+      message: 'Запись успешно редактирована',
+      updData: updatedPair,
+      id: updatedPair._id
     })
   } catch (err) {
     res.status(200).json({
@@ -145,7 +146,7 @@ router.patch('/:id', getPair, async (req, res) => {
       message: 'При редактировании произошла ошибка'
     })
   }
-}, getPair)
+})
 
 // Deleting One
 router.delete('/:id', getPair, async (req, res) => {
