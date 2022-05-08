@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-    <div class='toaster' :class="{ active: getToaster.options.isActive, success: getToaster.options.success }">
+    <div class='toaster' :class="{ active: getToaster.options.isActive, success: getToaster.options.success, error: !getToaster.options.success }">
       <div class="toaster__icon"></div>
       <div class="toaster__message">
-        {{ content[getToaster.options.type] }}
+        {{ getPopupText }}
       </div>
     </div>
   </div>
@@ -26,12 +26,17 @@ export default {
     getToaster(){
       return this.$store.state.toaster
     },
+    getPopupText() {
+      const type = this.getToaster.options.type;
+      if (this.content.hasOwnProperty(type)) return this.content[type];
+      return type;
+    }
   },
   methods: {},
   updated() {
     setTimeout(() => { // timeout to let the animation pass
       this.$store.commit('handleToaster', { isActive: false, type: undefined, success: undefined });
-    }, 2000)
+    }, 2500);
   }
 }
 </script>
@@ -70,6 +75,18 @@ export default {
 
   &.success {
     background: #d6eddd;
+  }
+
+  &.error {
+    background: #bf2b2b;
+
+    .toaster__message {
+      color: #f8dade;
+    }
+
+    .toaster__icon {
+      background-image: url("/src/assets/icons/error-icon.svg");
+    }
   }
 
   &.active {

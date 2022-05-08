@@ -97,16 +97,21 @@ const editPair = ({ commit, state }, data) => {
 		if (response.ok) {
 			return response.json();
 		} else {
+			commit('handleToaster', { isActive: true, type: 'Серверная ошибка', success: false })
 			console.warn("Server returned " + response.status + " : " + response.statusText);
 		}
-	}).then((resData) => {
-		commit('handleToaster', { isActive: true, type: 'edit', success: true })
-		state.vocabulary.forEach(item => {
-			if (item._id === resData._id) {
-				item.english = resData.english
-				item.russian = resData.russian
-			}
-		})
+	}).then((res) => {
+		if (res.success === true) {
+			commit('handleToaster', { isActive: true, type: 'edit', success: true })
+			state.vocabulary.forEach(item => {
+				if (item._id === res.id) {
+					item.foreign = res.updData.foreign
+					item.russian = res.updData.russian
+				}
+			})
+		} else {
+			commit('handleToaster', { isActive: true, type: 'error', success: false })
+		}
 	}).catch((err) => {
 		console.warn(err);
 	});
@@ -126,11 +131,15 @@ const addPair = ({ commit, state }, data) => {
 		if (response.ok) {
 			return response.json();
 		} else {
-			console.warn("Server returned " + response.status + " : " + response.statusText);
+			commit('handleToaster', { isActive: true, type: 'Серверная ошибка', success: false });
 		}
 	}).then((data) => {
-		commit('handleToaster', { isActive: true, type: 'create', success: true })
-		state.vocabulary.push(data.newPair);
+		if (data.success === true) {
+			commit('handleToaster', { isActive: true, type: 'create', success: true });
+			state.vocabulary.push(data.newPair);
+		} else {
+			commit('handleToaster', { isActive: true, type: 'error', success: false });
+		}
 	}).catch((err) => {
 		console.warn(err);
 	});
@@ -144,11 +153,16 @@ const deletePair = ({ commit, state }, data) => {
 		if (res.ok) {
 			return res.json();
 		} else {
+			commit('handleToaster', { isActive: true, type: 'Ошибка сервера', success: false })
 			console.warn("Server returned " + res.status + " : " + res.statusText);
 		}
-	}).then((data) => {
-		commit('handleToaster', { isActive: true, type: 'delete', success: true })
-		state.vocabulary = state.vocabulary.filter(item => item._id !== data.id)
+	}).then((res) => {
+		if (res.success === true) {
+			commit('handleToaster', { isActive: true, type: 'delete', success: true })
+			state.vocabulary = state.vocabulary.filter(item => item._id !== res.id)
+		} else {
+			commit('handleToaster', { isActive: true, type: 'error', success: false })
+		}
 	}).catch((err) => {
 		console.warn(err);
 	});

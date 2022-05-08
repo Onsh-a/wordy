@@ -1,7 +1,7 @@
 <template>
   <div>
-    <label ref="english" class="modal__edit-label" for="modal__edit-noun">{{ $translate(part) }}</label>
-    <input class="modal__edit-input" :data-part="part" type="text"
+    <label class="modal__edit-label" for="modal__edit-noun">{{ $translate(part) }}</label>
+    <input class="modal__edit-input" ref="foreign" :data-part="part" type="text"
            autocomplete="off" id='modal__edit-noun' :value="word" @input="handler"/>
   </div>
 </template>
@@ -15,7 +15,7 @@ export default {
       if (val === true) {
         this.$nextTick(() => {
           setTimeout(() => {
-            this.$refs.english.focus()
+            this.$refs.foreign.focus()
           }, 500)
         })
       }
