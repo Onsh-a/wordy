@@ -1,5 +1,5 @@
 <template>
-  <div class="spinner" :class="{ active: isActive }">
+  <div :class="['spinner', {'active': isActive}]">
     <div class="spinner__element"></div>
   </div>
 </template>
@@ -7,7 +7,9 @@
 <script>
 
 export default {
-  props: ['isActive']
+  props: {
+    isActive: Boolean,
+  }
 }
 
 </script>

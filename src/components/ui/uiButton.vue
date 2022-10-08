@@ -25,7 +25,6 @@ export default {
 }
 </script>
 
-
 <style scoped lang="scss">
   button {
     width: 40px;
@@ -52,8 +51,4 @@ export default {
       margin-right: 10px;
     }
   }
-
-
-
-
 </style>

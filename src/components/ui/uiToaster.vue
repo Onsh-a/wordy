@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class='toaster' :class="{ active: getToaster.options.isActive, success: getToaster.options.success, error: !getToaster.options.success }">
+    <div class='toaster' :class="{active: getToaster.options.isActive, success: getToaster.options.success, error: !getToaster.options.success}">
       <div class="toaster__icon"></div>
       <div class="toaster__message">
         {{ getPopupText }}

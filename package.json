@@ -5,11 +5,12 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "startDB": "brew services start mongodb-community@5.0",
+    "startDB": "brew services start mongodb-community",
     "checkDB": "brew services list",
-    "stopDB": "brew services stop mongodb-community@5.0",
+    "stopDB": "brew services stop mongodb-community",
     "serve": "nodemon server.js",
-    "vueServe": "vue-cli-service serve"
+    "runFrontend": "vue-cli-service serve",
+    "runBackend": "npm run startDB && npm run serve"
   },
   "author": "",
   "license": "ISC",
