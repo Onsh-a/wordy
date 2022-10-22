@@ -44,6 +44,7 @@ export default {
     padding: 10px;
     display: flex;
     justify-content: space-between;
+    border-radius: 5px 5px 0 0;
 
     &__search {
       display: block;
@@ -53,7 +54,9 @@ export default {
       font-size: 16px;
       line-height: 21px;
       color: $secondary-color;
-      width: calc(40% - 10px);
+      width: calc(100% - 52px);
+      border-radius: 5px;
+      border: none;
     }
 
     &__button-sort {

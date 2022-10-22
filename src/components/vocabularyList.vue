@@ -29,7 +29,7 @@ export default {
     preparedVocabulary() {
       if (this.vocabulary.length === 0) return true;
       let filteredVocabulary = JSON.parse(JSON.stringify(this.vocabulary));
-      filteredVocabulary = this.sort ? this.vocabulary  : JSON.parse(JSON.stringify(this.vocabulary)).reverse();
+      filteredVocabulary = this.sort ? this.vocabulary : JSON.parse(JSON.stringify(this.vocabulary)).reverse();
       return filteredVocabulary.filter(item => item.foreign.join('').toLowerCase().includes(this.searchData.toLowerCase()))
     },
   },
