@@ -1,8 +1,19 @@
 <template>
   <div class="container">
     <div class="list-header">
-      <input class="list-header__search" type="text" placeholder="Поиск" v-model="searchData" @input="search">
-      <button class="list-header__button-sort" :class="{ up: ascending }" @click="sort">Сортировать</button>
+      <input
+        class="list-header__search"
+        type="text"
+        placeholder="Поиск"
+        v-model="searchData"
+        @input="search"
+      >
+      <button
+        :class="['list-header__button-sort', {'up': isAscending}]"
+        @click="sort"
+      >
+        Сортировать
+      </button>
     </div>
   </div>
 </template>
@@ -12,7 +23,7 @@ export default {
   data(){
     return {
       searchData: null,
-      ascending: true
+      isAscending: true
     }
   },
   methods: {
@@ -20,20 +31,20 @@ export default {
       this.$store.commit('handleSearch', this.searchData);
     },
     sort() {
-      this.ascending = !this.ascending;
-      this.$store.commit('handleSort', this.ascending);
+      this.isAscending = !this.isAscending;
+      this.$store.commit('handleSort', this.isAscending);
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-
   .list-header {
     background-color: $base-color;
     padding: 10px;
     display: flex;
     justify-content: space-between;
+    border-radius: 5px 5px 0 0;
 
     &__search {
       display: block;
@@ -43,7 +54,9 @@ export default {
       font-size: 16px;
       line-height: 21px;
       color: $secondary-color;
-      width: calc(40% - 10px);
+      width: calc(100% - 52px);
+      border-radius: 5px;
+      border: none;
     }
 
     &__button-sort {
@@ -69,5 +82,4 @@ export default {
       }
     }
   }
-
 </style>

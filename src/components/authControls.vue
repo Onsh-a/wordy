@@ -1,15 +1,15 @@
 <template>
   <div class="auth">
-    <button v-if='!getAuthStatus' data-type="signup" @click.prevent="openAuthPopup($event)" class="auth__signup">Sign up</button>
-    <button v-if='!getAuthStatus' data-type="signin" @click.prevent="openAuthPopup($event)" class="auth__signin">Sign in</button>
-    <button v-if='getAuthStatus' data-type="logout" @click.prevent="handleLogOut" class="auth__signin">Log out</button>
+    <button v-if='!authStatus' data-type="signup" @click.prevent="openAuthPopup($event)" class="auth__signup">Sign up</button>
+    <button v-if='!authStatus' data-type="signin" @click.prevent="openAuthPopup($event)" class="auth__signin">Sign in</button>
+    <button v-if='authStatus' data-type="logout" @click.prevent="handleLogOut" class="auth__signin">Log out</button>
   </div>
 </template>
 
 <script>
 export default {
   computed: {
-    getAuthStatus() {
+    authStatus() {
       return this.$store.state.auth.userId
     }
   },
@@ -18,7 +18,7 @@ export default {
       this.$store.commit('handleCurrentUser', { id: '' });
       this.$store.commit('setVocabulary', [])
     },
-    openAuthPopup() {
+    openAuthPopup(event) {
       const authType = event.target.dataset.type;
       this.$store.commit('handlePopup', {
         type: 'auth',

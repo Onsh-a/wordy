@@ -1,12 +1,24 @@
 <template>
   <div class="modal__container">
-    <h3 class="modal__title">{{ popupData.type === 'create' ? 'Новый перевод' : 'Редактирование' }}</h3>
+    <h3 class="modal__title">
+      {{ popupData.type === 'create' ? 'Новый перевод' : 'Редактирование' }}
+    </h3>
 
     <div class="modal__edit">
-      <ui-popup-input ref="english" :isActive="popupData.isActive" :word="popupData.pair.foreign"
-                      :part="$translate(popupData.lang)" :handler="updateForeign"/>
-      <ui-popup-input v-for="(word, part, index) in popupData.pair.russian"
-                      :key="index" :word="word" :part="part" :handler="updateRussian"/>
+      <ui-popup-input
+        ref="english"
+        :isActive="popupData.isActive"
+        :word="popupData.pair.foreign"
+        :part="$translate(popupData.lang)"
+        :handler="updateForeign"
+      />
+      <ui-popup-input
+        v-for="(word, part, index) in popupData.pair.russian"
+        :key="index"
+        :word="word"
+        :part="part"
+        :handler="updateRussian"
+      />
     </div>
     <button class="modal__save" @click='handleSave'>Сохранить</button>
     <button class="modal__close" @click='popupClose'>Закрыть</button>

@@ -4,7 +4,7 @@
       <authControls />
       <h2 class='header__logo'>Wordy</h2>
       <div class="header__right">
-        <button @click.prevent='toggleCurrentLang' class="header__lang-toggle">{{ getCurrentLang }}</button>
+        <button @click.prevent='toggleCurrentLang' class="header__lang-toggle">{{ currentLang }}</button>
         <button @click.prevent="createNew" class='header__add'>Добавить слово</button>
       </div>
     </div>
@@ -22,7 +22,7 @@ export default {
     return {}
   },
   computed: {
-    getCurrentLang() {
+    currentLang() {
       return this.$store.state.lang
     }
   },

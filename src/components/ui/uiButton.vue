@@ -10,7 +10,7 @@ export default {
     id: String,
   },
   methods: {
-    handleClick({ commit, dispatch }){
+    handleClick() {
       this.$store.commit('handlePopup', {
         type: this.options.type,
         id: this.id
@@ -24,7 +24,6 @@ export default {
   },
 }
 </script>
-
 
 <style scoped lang="scss">
   button {
@@ -52,8 +51,4 @@ export default {
       margin-right: 10px;
     }
   }
-
-
-
-
 </style>

@@ -62,7 +62,7 @@ const logIn = ({ dispatch, commit, state }, data) => {
 		if (response.ok) {
 			return response.json();
 		} else {
-			console.warn("Server returned " + response.status + " : " + response.statusText);
+			console.warn(`Server returned ${response.status} ${response.statusText}`);
 		}
 	}).then((res) => {
 		commit('togglePending', false);
