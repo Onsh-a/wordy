@@ -7,29 +7,25 @@
         Пожалуйста, зайдтие в аккаунт или зарегистрируйтесь
       </div>
 
-      <button @click.prevent='handleAuth($event)' data-auth="signin" class="logged-out__button">Войти</button>
-      <button @click.prevent='handleAuth($event)' data-auth="signup" class="logged-out__button">Зарегистрироваться</button>
+      <button @click.prevent='handleAuth("signin")' class="logged-out__button">Войти</button>
+      <button @click.prevent='handleAuth("signup")' class="logged-out__button">Зарегистрироваться</button>
     </div>
   </div>
 </template>
 
-<script>
-
-export default {
-  methods: {
-    handleAuth(e) {
-      this.$store.commit('handlePopup', {
-        type: 'auth',
-        authType: e.target.dataset.auth,
-      })
-    }
-  },
-};
+<script setup lang="ts">
+import { useStore } from 'vuex'
+const store = useStore();
+const handleAuth = (authType: string) => {
+  store.commit('handlePopup', {
+    type: 'auth',
+    authType: authType,
+  })
+}
 </script>
 
 <style lang="scss">
 .logged-out {
-
   &__overlay {
     position: fixed;
     left: 0;

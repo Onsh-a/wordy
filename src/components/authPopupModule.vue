@@ -99,11 +99,9 @@ export default {
     },
   },
   mounted() {
-    this.$nextTick(() => {
-      setTimeout(() => {
-        this.$refs['input_0'][0].focus();
-      }, 300)
-    })
+    setTimeout(() => {
+      this.$refs['input_0'][0].focus();
+    }, 300)
   }
 }
 </script>
