@@ -2,37 +2,39 @@
   <div>
     <label
       class="modal__edit-label"
-      for="modal__edit-noun"
+      :for="`modal__edit-${part}`"
     >
       {{ $translate(part) }}
     </label>
     <input
       class="modal__edit-input"
-      ref="foreign"
-      :data-part="part"
-      type="text"
+      :id="`modal__edit-${part}`"
       autocomplete="off"
-      id='modal__edit-noun'
+      ref="input"
       :value="word"
+      type="text"
       @input="handler"
     />
   </div>
 </template>
 
-<script>
-export default {
-  props: ['word', 'part', 'handler', 'isActive'],
-  watch: {
-    isActive: function (val) {
-      if (val === true) {
-        this.$nextTick(() => {
-          setTimeout(() => {
-            this.$refs.foreign.focus()
-          }, 500)
-        })
-      }
-    }
+<script setup lang='ts'>
+import { watch, ref } from 'vue';
+import type { Ref } from 'vue';
+const props = defineProps({
+  word: [String, Array],
+  part: String,
+  handler: Function,
+  isActive: Boolean,
+})
+const input: Ref<HTMLInputElement | null> = ref(null);
+watch(() => props.isActive, async (val) => {
+  if (val) {
+    setTimeout(() => {
+      if (!input.value) return;
+      input.value.focus();
+    }, 400)
   }
-}
+})
 </script>
 

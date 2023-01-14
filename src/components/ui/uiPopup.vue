@@ -1,6 +1,6 @@
 <template>
   <div class="modal" @keydown.esc="handleClose" :class="{ active: popupData.isActive }">
-    <PopupErrors
+    <ui-popup-errors
       v-if="popupData.errors.length > 0"
       :errors="popupData.errors"
     />
@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import AuthModule from '@/components/authPopupModule';
 import AuthSuccessModule from '@/components/authSuccessPopupModule';
-import PopupErrors from '@/components/ui/uiPopupErrors';
+import UiPopupErrors from '@/components/ui/uiPopupErrors';
 import CreateEditModule from '@/components/createEditModule.vue';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
