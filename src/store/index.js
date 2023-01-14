@@ -17,11 +17,9 @@ export default new Vuex.Store({
       authType: undefined,
     },
     toaster: {
-      options: {
-        isActive: false,
-        type: undefined,
-        success: undefined,
-      }
+      isActive: false,
+      type: undefined,
+      isSuccess: undefined,
     },
     asyncManagement: {
       pending: false,

@@ -2,16 +2,18 @@
   <div class="modal__container">
     <spinner :is-active="getAsyncData.pending" />
     <h3 class="modal__title"> {{ authType === 'signup' ? 'Зарегистрироваться' : 'Войти' }}</h3>
-
     <div v-for="(_, name, index) in getPopupSceleton" :key="name">
       <label class="modal__edit-label" :for="`modal__${name}`">{{ $translate(name) }}</label>
-      <input class="modal__edit-input"
-             @keydown.enter="handleSign"
-             :ref="`input_${index}`"
-             type="text" autocomplete="off"
-             :id='`modal__${name}`'
-             :data-type="name"
-             v-model="getPopupSceleton[name]"/>
+      <input
+        class="modal__edit-input"
+        @keydown.enter="handleSign"
+        :ref="`input_${index}`"
+        type="text"
+        autocomplete="off"
+        :id='`modal__${name}`'
+        :data-type="name"
+        v-model="getPopupSceleton[name]"
+      />
     </div>
 
     <div v-if="getAsyncData.errorMessage" class="modal__error">
@@ -68,7 +70,7 @@ export default {
 
         if (key === 'email') {
           if (!utils._validateEmail(input)) {
-            errors.push(`Введен еmail неверноего формата`);
+            errors.push(`Введен еmail неверного формата`);
           }
         } else {
           if (input.length < 1) {
@@ -78,7 +80,6 @@ export default {
       }
 
       this.$store.commit("handleErrorMessages", errors);
-
       return errors.length <= 0;
     },
     handleSign() {

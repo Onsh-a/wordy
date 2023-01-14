@@ -4,14 +4,10 @@
   </div>
 </template>
 
-<script>
-
-export default {
-  props: {
-    isActive: Boolean,
-  }
-}
-
+<script setup lang="ts">
+defineProps({
+  isActive: Boolean
+})
 </script>
 
 <style scoped lang="scss">
@@ -60,7 +56,6 @@ export default {
     }
   }
 }
-
 </style>
 
 

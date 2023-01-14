@@ -30,9 +30,16 @@ const handleCurrentUser = (state, data) => {
 }
 
 const handleToaster = (state, data) => {
-	state.toaster.options.isActive = data.isActive;
-	state.toaster.options.type = data.type;
-	state.toaster.options.success= data.success;
+	state.toaster.isActive = data.isSuccess !== undefined;
+	if (!state.toaster.isActive) {
+		setTimeout(() => {
+			state.toaster.type = data.type;
+			state.toaster.isSuccess= data.isSuccess;
+		}, 1000)
+		return;
+	}
+	state.toaster.type = data.type;
+	state.toaster.isSuccess= data.isSuccess;
 }
 
 const handlePopup = (state, data) => {

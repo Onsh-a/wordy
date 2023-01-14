@@ -20,7 +20,6 @@
 </template>
 
 <script>
-
 export default {
   props: ['word', 'part', 'handler', 'isActive'],
   watch: {

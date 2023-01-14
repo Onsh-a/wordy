@@ -6,9 +6,9 @@
   </ul>
 </template>
 
-<script>
-export default {
-  props: ['errors'],
-}
+<script setup lang="ts">
+defineProps({
+  errors: Array,
+})
 </script>
 

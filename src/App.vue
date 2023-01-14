@@ -1,46 +1,31 @@
 <template>
   <div id="app">
-    <edit-popup/>
-    <toaster/>
-    <vocabulary-header/>
-    <vocabulary-controls/>
-    <vocabulary-list :vocabulary="getVocabulary"/>
-    <logged-out v-if="!isUserLogged"/>
+    <ui-popup />
+    <ui-toaster />
+    <VocabularyHeader />
+    <VocabularyControls />
+    <VocabularyList :vocabulary="vocabulary" />
+    <LoggedOut v-if="!isUserLogged" />
   </div>
 </template>
 
-<script>
-import loggedOut from "./components/loggedOut"
-import vocabularyList from "./components/vocabularyList.vue"
-import vocabularyHeader from "./components/vocabularyHeader.vue"
-import vocabularyControls from "./components/vocabularyListControls.vue"
-import toaster from "./components/ui/uiToaster.vue"
-import editPopup from './components/ui/uiPopup.vue'
+<script setup lang="ts">
+import LoggedOut from '@/components/loggedOut.vue';
+import VocabularyList from '@/components/vocabularyList.vue';
+import VocabularyHeader from '@/components/vocabularyHeader.vue';
+import VocabularyControls from '@/components/vocabularyListControls.vue';
+import UiToaster from '@/components/ui/uiToaster.vue';
+import UiPopup from '@/components/ui/uiPopup.vue';
+import { useStore } from 'vuex';
+import { computed, onMounted } from 'vue';
+const store = useStore();
 
-export default {
-  name: "App",
-  components: {
-    vocabularyList,
-    vocabularyControls,
-    vocabularyHeader,
-    toaster,
-    editPopup,
-    loggedOut
-  },
-  methods: {},
-  computed: {
-    getVocabulary() {
-      return this.$store.state.vocabulary;
-    },
-    isUserLogged() {
-      return this.$store.state.auth.userId;
-    }
-  },
-  mounted() {
-    this.$store.commit('handleCurrentUser');
-    this.$store.dispatch('getData');
-  },
-};
+const vocabulary = computed(() => store.state.vocabulary);
+const isUserLogged = computed(() => store.state.auth.userId);
+onMounted(() => {
+  store.commit('handleCurrentUser');
+  store.dispatch('getData');
+})
 </script>
 
 <style lang="scss">

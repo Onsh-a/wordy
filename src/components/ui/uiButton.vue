@@ -2,26 +2,25 @@
   <button :class='options.type' @click='handleClick'></button>
 </template>
 
-<script>
+<script setup lang="ts">
+import { useStore } from 'vuex';
+const store = useStore();
 
-export default {
-  props: {
-    options: Object,
-    id: String,
-  },
-  methods: {
-    handleClick() {
-      this.$store.commit('handlePopup', {
-        type: this.options.type,
-        id: this.id
-      })
-      if (this.options.type === 'delete') {
-        this.$store.dispatch('deletePair', {
-          id: this.id,
-        })
-      }
-    }
-  },
+const props = defineProps({
+  options: Object,
+  id: String,
+})
+
+const handleClick = () => {
+  store.commit('handlePopup', {
+    type: props.options?.type,
+    id: props.id
+  })
+  if (props.options?.type === 'delete') {
+    store.dispatch('deletePair', {
+      id: props.id,
+    })
+  }
 }
 </script>
 
