@@ -3,7 +3,7 @@ const PATH = 'http://localhost:8081'
 const getData = ({ commit, state }) =>  {
 	if (!state.auth.userId) return false
 	fetch(`${PATH}/wordy?lang=${state.lang}&user=${state.auth.userId}`, {
-		method: "GET",
+		method: 'GET',
 	}).then((response) => {
 		if (response.ok) {
 			return response.json();
@@ -88,84 +88,70 @@ const changeLang = ({ commit, state }) => {
 	getData({ commit, state });
 }
 
-const editPair = ({ commit, state }, data) => {
-	fetch(`${PATH}/wordy/${data.id}?lang=${state.lang}`, {
+const editPair = async ({ commit, state }, data) => {
+	let response = await fetch(`${PATH}/wordy/${data.id}?lang=${state.lang}`, {
 		headers: { 'Content-Type': 'application/json' },
-		method: "PATCH",
+		method: 'PATCH',
 		body: JSON.stringify( { lang: state.lang, russian: data.russian, foreign: data.foreign })
-	}).then((response) => {
-		if (response.ok) {
-			return response.json();
-		} else {
-			commit('handleToaster', { isActive: true, type: 'Серверная ошибка', success: false })
-			console.warn("Server returned " + response.status + " : " + response.statusText);
+	})
+	if (!response.ok) {
+		commit('handleToaster', { type: 'Серверная ошибка', isSuccess: false })
+		throw new Error(`Server Error ${response.status} ${response.statusText}`);
+	}
+	response = await response.json();
+	if (!response.success) {
+		commit('handleToaster', { type: 'error', isSuccess: false })
+		throw new Error(`Unsuccessful edit attempt`);
+	}
+	commit('handleToaster', { type: 'edit', isSuccess: true })
+	state.vocabulary.forEach(item => {
+		if (item._id === response.id) {
+			item.foreign = response.updData.foreign
+			item.russian = response.updData.russian
 		}
-	}).then((res) => {
-		if (res.success === true) {
-			commit('handleToaster', { isActive: true, type: 'edit', success: true })
-			state.vocabulary.forEach(item => {
-				if (item._id === res.id) {
-					item.foreign = res.updData.foreign
-					item.russian = res.updData.russian
-				}
-			})
-		} else {
-			commit('handleToaster', { isActive: true, type: 'error', success: false })
-		}
-	}).catch((err) => {
-		console.warn(err);
-	});
+	})
 }
 
-const addPair = ({ commit, state }, data) => {
-	fetch(`${PATH}/wordy/`, {
-		headers: { 'Content-Type': 'application/json' },
-		method: "POST",
-		body: JSON.stringify( {
+const addPair = async ({ commit, state }, data) => {
+	let response = await fetch(`${PATH}/wordy/`, {
+		headers: {'Content-Type': 'application/json'},
+		method: 'POST',
+		body: JSON.stringify({
 			lang: data.lang,
 			russian: data.russian,
 			foreign: data.foreign,
 			userId: state.auth.userId
 		})
-	}).then((response) => {
-		if (response.ok) {
-			return response.json();
-		} else {
-			commit('handleToaster', { isActive: true, type: 'Серверная ошибка', success: false });
-		}
-	}).then((data) => {
-		if (data.success === true) {
-			commit('handleToaster', { isActive: true, type: 'create', success: true });
-			state.vocabulary.push(data.newPair);
-		} else {
-			commit('handleToaster', { isActive: true, type: 'error', success: false });
-		}
-	}).catch((err) => {
-		console.warn(err);
-	});
+	})
+	if (!response.ok) {
+		commit('handleToaster', {type: 'Серверная ошибка', isSuccess: false});
+	}
+	response = await response.json();
+	if (!response.success) {
+		commit('handleToaster', { type: 'error', isSuccess: false });
+		throw new Error(`Unsuccessful addition attempt`);
+	}
+	commit('handleToaster', { type: 'create', isSuccess: true });
+	state.vocabulary.push(response.newPair);
 }
 
-const deletePair = ({ commit, state }, data) => {
-	fetch(`${PATH}/wordy/${data.id}?lang=${state.lang}`, {
+const deletePair = async ({ commit, state }, data) => {
+	let response = await fetch(`${PATH}/wordy/${data.id}?lang=${state.lang}`, {
 		headers: { 'Content-Type': 'application/json' },
-		method: "DELETE",
-	}).then((res) => {
-		if (res.ok) {
-			return res.json();
-		} else {
-			commit('handleToaster', { isActive: true, type: 'Ошибка сервера', success: false })
-			console.warn("Server returned " + res.status + " : " + res.statusText);
-		}
-	}).then((res) => {
-		if (res.success === true) {
-			commit('handleToaster', { isActive: true, type: 'delete', success: true })
-			state.vocabulary = state.vocabulary.filter(item => item._id !== res.id)
-		} else {
-			commit('handleToaster', { isActive: true, type: 'error', success: false })
-		}
-	}).catch((err) => {
-		console.warn(err);
+		method: 'DELETE',
 	});
+
+	if (!response.ok) {
+		commit('handleToaster', {type: 'Серверная ошибка', isSuccess: false});
+		throw new Error(`Server Error ${response.status} ${response.statusText}`);
+	}
+	response = await response.json();
+	if (!response.success) {
+		commit('handleToaster', { type: 'error', isSuccess: false });
+		throw new Error(`Unsuccessful deletion attempt`);
+	}
+	commit('handleToaster', { type: 'delete', isSuccess: true });
+	state.vocabulary = state.vocabulary.filter(item => item._id !== response.id);
 }
 
 export default {

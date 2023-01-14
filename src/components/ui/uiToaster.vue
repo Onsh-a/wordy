@@ -1,48 +1,47 @@
 <template>
   <div class="container">
-    <div class='toaster' :class="{active: getToaster.options.isActive, success: getToaster.options.success, error: !getToaster.options.success}">
+    <div
+      :class="['toaster', { active: toaster.isActive, success: toaster.isSuccess, error: !toaster.isSuccess }]">
       <div class="toaster__icon"></div>
       <div class="toaster__message">
-        {{ getPopupText }}
+        {{ toasterText }}
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { computed, watch } from 'vue';
+import { useStore } from 'vuex';
+import type { ComputedRef } from 'vue';
+import Toaster from "@/types/toaster";
 
-export default {
-  data() {
-    return {
-      content: {
-        create: 'Запись успешно добавлена',
-        edit: 'Запись успешно редактирована',
-        delete: 'Запись успешно удалена',
-        error: 'Произошла ошибка'
-      }
-    }
-  },
-  computed: {
-    getToaster(){
-      return this.$store.state.toaster
-    },
-    getPopupText() {
-      const type = this.getToaster.options.type;
-      if (this.content.hasOwnProperty(type)) return this.content[type];
-      return type;
-    }
-  },
-  methods: {},
-  updated() {
-    setTimeout(() => { // timeout to let the animation pass
-      this.$store.commit('handleToaster', { isActive: false, type: undefined, success: undefined });
-    }, 2500);
-  }
+const TOASTER_ACTIVE_TIME = 2500;
+const store = useStore();
+const content: { [index: string]: string } = {
+  create: 'Запись успешно добавлена',
+  edit: 'Запись успешно редактирована',
+  delete: 'Запись успешно удалена',
+  error: 'Произошла ошибка'
 }
+
+const toaster: ComputedRef<Toaster> = computed(() => store.state.toaster);
+
+const toasterText = computed(() => {
+  const type = toaster.value.type;
+  return content.hasOwnProperty(type) ? content[type] : type;
+});
+
+watch(toaster, () => {
+    if (!toaster.value.isActive) return;
+    setTimeout(() => {
+      store.commit('handleToaster', { type: undefined, isSuccess: undefined });
+    }, TOASTER_ACTIVE_TIME);
+  },
+  {deep: true})
 </script>
 
 <style scoped lang="scss">
-
 .toaster {
   position: fixed;
   left: 20px;
@@ -61,7 +60,7 @@ export default {
   &__icon {
     width: 30px;
     height: 30px;
-    background-image: url("/src/assets/icons/check-icon.svg");
+    background-image: url('/src/assets/icons/check-icon.svg');
     background-size: contain;
     background-repeat: no-repeat;
     flex: 1 0 40px;
@@ -85,7 +84,7 @@ export default {
     }
 
     .toaster__icon {
-      background-image: url("/src/assets/icons/error-icon.svg");
+      background-image: url('/src/assets/icons/error-icon.svg');
     }
   }
 

@@ -30,13 +30,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 .auth {
   display: flex;
 
   &__signup {
     margin-right: 10px;
-
   }
 
   &__signup,
@@ -60,5 +58,4 @@ export default {
     }
   }
 }
-
 </style>

@@ -1,64 +1,57 @@
 <template>
   <div class="modal" @keydown.esc="handleClose" :class="{ active: popupData.isActive }">
-    <popupErrors
+    <ui-popup-errors
       v-if="popupData.errors.length > 0"
       :errors="popupData.errors"
     />
 
-    <authModule
+    <AuthModule
       v-if="popupData.type === 'auth'"
       :authType="popupData.authType"
       :popupClose="handleClose"
     />
 
-    <authSuccessModule
+    <AuthSuccessModule
       v-else-if="popupData.type === 'auth-success'"
       :authType="popupData.type"
       :userName="popupData.userName"
       :popupClose="handleClose"
     />
 
-    <createEditModule
+    <CreateEditModule
       v-else
       :popupClose="handleClose"
     />
   </div>
 </template>
 
-<script>
-import createEditModule from "../createEditModule";
-import authModule from "./../authPopupModule";
-import authSuccessModule from "./../authSuccessPopupModule";
-import popupErrors from "./uiPopupErrors";
+<script setup lang="ts">
+import AuthModule from '@/components/authPopupModule';
+import AuthSuccessModule from '@/components/authSuccessPopupModule';
+import UiPopupErrors from '@/components/ui/uiPopupErrors';
+import CreateEditModule from '@/components/createEditModule.vue';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+const store = useStore();
 
-export default {
-  components: {
-    createEditModule,
-    authModule,
-    authSuccessModule,
-    popupErrors,
-  },
-  computed: {
-    popupData() {
-      return {
-        isActive: this.$store.state.popup.isActive,
-        type: this.$store.state.popup.type,
-        authType: this.$store.state.auth.authType ?? null,
-        errors: this.$store.state.popup.errors,
-        userName: this.$store.state.auth.userName,
-      }
-    }
-  },
-  methods: {
-    handleClose() {
-      this.$store.state.popup.isActive = false
-      setTimeout(() => {
-        this.$store.commit('handleErrorMessages', []);
-        this.$store.commit('handlePopup', 'close');
-      }, 400)
-    },
-  },
+const popupData = computed(() => {
+  return {
+    isActive: store.state.popup.isActive,
+    type: store.state.popup.type,
+    authType: store.state.auth.authType ?? null,
+    errors: store.state.popup.errors,
+    userName: store.state.auth.userName,
+  }
+})
+
+const handleClose = () => {
+  store.state.popup.isActive = false
+  setTimeout(() => {
+    store.commit('handleErrorMessages', []);
+    store.commit('handlePopup', 'close');
+  }, 400)
 }
+
 </script>
 
 <style lang="scss">

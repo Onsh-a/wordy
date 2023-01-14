@@ -41,7 +41,9 @@ export default {
   components: {
     uiPopupInput,
   },
-  props: ['popupClose'],
+  props: {
+    popupClose: Function,
+  },
   data() {
     return {
       newData: {

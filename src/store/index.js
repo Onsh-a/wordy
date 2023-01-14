@@ -1,9 +1,6 @@
-import Vue from 'vue'
 import Vuex from 'vuex'
 import actions from './actions'
 import mutations from './mutations'
-
-Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
@@ -20,11 +17,9 @@ export default new Vuex.Store({
       authType: undefined,
     },
     toaster: {
-      options: {
-        isActive: false,
-        type: undefined,
-        success: undefined,
-      }
+      isActive: false,
+      type: undefined,
+      isSuccess: undefined,
     },
     asyncManagement: {
       pending: false,
