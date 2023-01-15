@@ -48,16 +48,16 @@ const handlePopup = (state, data) => {
 		state.popup.isActive = true;
 	} else if (data.type === 'edit') {
 		state.popup.isActive = true;
-		state.currentId = data.id;
+		state.currentPairId = data.id;
 	} else if (data.type === 'delete') {
-		state.currentId = data.id;
+		state.currentPairId = data.id;
 	} else if (data.type === 'auth') {
 		state.popup.isActive = true
 		state.auth.authType = data.authType
 	} else {
 		// closing the popup
 		state.popup.isActive = false;
-		state.currentId = '';
+		state.currentPairId = null;
 	}
 }
 

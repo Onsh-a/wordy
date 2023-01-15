@@ -1,116 +1,72 @@
 <template>
   <div class="modal__container">
     <h3 class="modal__title">
-      {{ popupData.type === 'create' ? 'Новый перевод' : 'Редактирование' }}
+      {{ popupDataType === 'create' ? 'New Pair' : 'Edit Pair' }}
     </h3>
 
-    <div class="modal__edit">
+    <div class="modal__edit" v-if="newPair">
       <ui-popup-input
-        ref="english"
-        :isActive="popupData.isActive"
-        :word="popupData.pair.foreign"
-        :part="$translate(popupData.lang)"
-        :handler="updateForeign"
+        :is-active="popupData.isActive"
+        :word="newPair.foreign"
+        :part="$translate(newPair.lang)"
+        @input="updateForeign"
       />
       <ui-popup-input
-        v-for="(word, part, index) in popupData.pair.russian"
+        v-for="(word, part, index) in newPair.russian"
         :key="index"
         :word="word"
         :part="part"
-        :handler="updateRussian"
+        @input="updateRussian"
       />
     </div>
-    <button class="modal__save" @click='handleSave'>Сохранить</button>
-    <button class="modal__close" @click='popupClose'>Закрыть</button>
+    <button class="modal__save" @click='handleSave'>Save</button>
+    <button class="modal__close" @click='emits("close-popup")'>Close</button>
   </div>
 </template>
 
-<script>
-import uiPopupInput from "./ui/uiPopupInput";
+<script setup lang="ts">
+import UiPopupInput from '@/components/ui/uiPopupInput';
+import { useStore } from 'vuex';
+import { computed, ref, watch, Ref } from 'vue';
+import { NewPair, RussianVocabularyData } from '@/types/newPair';
 
-class Translation {
-  constructor(data = {}) {
-    this.noun = data.noun ? data.noun : null;
-    this.verb = data.verb ? data.verb : null;
-    this.adjective = data.adjective ? data.adjective : null;
-    this.other = data.other ? data.other : null;
+const emits = defineEmits(['close-popup']);
+const store = useStore();
+const popupData = computed(() => store.state.popup);
+const popupDataType = computed(() => popupData.value.type);
+const preparedPopupData = computed(() => store.getters.getCurrentPairData);
+const newPair:Ref<NewPair | null> = ref(null);
+const handleSave = () => {
+  if (!newPair.value) return;
+  if (popupDataType.value === 'create') {
+    store.dispatch('addPair', {
+      lang: newPair.value.lang,
+      foreign: newPair.value.foreign,
+      russian: newPair.value.russian
+    })
+  } else {
+    store.dispatch('editPair', {
+      id: store.state.currentPairId,
+      foreign: newPair.value.foreign,
+      russian: newPair.value.russian,
+    })
   }
 }
 
-export default {
-  components: {
-    uiPopupInput,
-  },
-  props: {
-    popupClose: Function,
-  },
-  data() {
-    return {
-      newData: {
-        russian: {
-          noun: null,
-          verb: null,
-          adjective: null,
-          other: null,
-        },
-        foreign: null
-      }
-    }
-  },
-  computed: {
-    popupData() {
-      const id = this.$store.state.currentId;
-      if (!id) return {
-        isActive: this.$store.state.popup.isActive,
-        type: this.$store.state.popup.type,
-        pair: {foreign: '', russian: new Translation()},
-        lang: this.$store.state.lang
-      }
-
-      let currentData = this.$store.state.vocabulary.filter((item) => item._id === id);
-
-      currentData = {
-        russian: currentData[0]?.russian,
-        foreign: currentData[0]?.foreign,
-      }
-
-      return {
-        isActive: this.$store.state.popup.isActive,
-        type: this.$store.state.popup.type,
-        pair: currentData,
-        lang: this.$store.state.lang
-      }
-    },
-  },
-  methods: {
-    updateRussian(e) {
-      this.newData.russian[e.target.dataset.part] = e.target.value;
-    },
-    updateForeign(e) {
-      this.newData.foreign = e.target.value;
-    },
-    handleSave() {
-      const translation = new Translation(this.newData.russian)
-      const type = this.popupData.type;
-      if (type === 'create') {
-        this.$store.dispatch('addPair', {
-          lang: this.popupData.lang,
-          foreign: this.newData.foreign,
-          russian: translation
-        })
-      } else {
-        this.$store.dispatch('editPair', {
-          id: this.$store.state.currentId,
-          foreign: this.newData.foreign,
-          russian: translation
-        })
-      }
-      this.popupClose();
-    }
-  },
-  updated() {
-    this.newData = JSON.parse(JSON.stringify(this.popupData.pair));
-  }
+const updateForeign = ([part, newValue]:string[]) => {
+  if (!newPair.value) return;
+  newPair.value.foreign = newValue;
 }
+
+const updateRussian = ([part, newValue]:string[]) => {
+  if (!newPair.value) return;
+  newPair.value.russian[part as keyof RussianVocabularyData] = newValue;
+}
+
+watch(() => preparedPopupData.value, () => {
+  newPair.value = preparedPopupData.value;
+},
+  { deep: true })
+
 </script>
 

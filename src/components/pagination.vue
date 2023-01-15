@@ -21,23 +21,25 @@ const emit = defineEmits(['updatePagination']);
 const updatePagination = (offset:number) => emit('updatePagination', offset);
 
 const pages = computed(() => {
-  if (!props.totalPaginationPages) return []
-  return Array.from(Array(props.totalPaginationPages).keys())
+  if (!props.totalPaginationPages) return [];
+  return Array.from(Array(props.totalPaginationPages).keys());
 })
 </script>
 
 <style lang="scss">
 .pagination {
   display: flex;
-  margin-bottom: 40px;
+  padding: 10px 10px;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
 
   &__item {
     display: block;
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
     border-radius: 5px;
-    background-color: #778da9;
-    border: 2px solid #0d1b2a;
+    background-color: $secondary-color;
+    border: 2px solid $secondary-color;
     color: #FFFFFF;
     cursor: pointer;
     transition: .2s;
@@ -47,8 +49,8 @@ const pages = computed(() => {
     }
 
     &.active {
-      background-color: #FFFFFF;
-      color: #778da9;
+      background-color: $base-bkg-color;
+      color: $secondary-color;
     }
   }
 }

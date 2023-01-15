@@ -124,7 +124,7 @@ const addPair = async ({ commit, state }, data) => {
 		})
 	})
 	if (!response.ok) {
-		commit('handleToaster', {type: 'Серверная ошибка', isSuccess: false});
+		commit('handleToaster', { type: 'Серверная ошибка', isSuccess: false });
 	}
 	response = await response.json();
 	if (!response.success) {

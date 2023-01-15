@@ -1,6 +1,7 @@
 import Vuex from 'vuex'
 import actions from './actions'
 import mutations from './mutations'
+import getters from './getters'
 
 export default new Vuex.Store({
   state: {
@@ -24,10 +25,11 @@ export default new Vuex.Store({
     asyncManagement: {
       pending: false,
     },
-    currentId: '',
+    currentPairId: null,
     search: '',
     ascending: true
   },
   actions,
   mutations,
+  getters,
 })

@@ -1,5 +1,9 @@
 <template>
-  <div class="modal" @keydown.esc="handleClose" :class="{ active: popupData.isActive }">
+  <div
+    ref="modal"
+    :class="['modal', { active: popupData.isActive }]"
+    @keydown.esc="handleClose"
+  >
     <ui-popup-errors
       v-if="popupData.errors.length > 0"
       :errors="popupData.errors"
@@ -20,7 +24,7 @@
 
     <CreateEditModule
       v-else
-      :popupClose="handleClose"
+      @close-popup="handleClose"
     />
   </div>
 </template>
@@ -30,10 +34,11 @@ import AuthModule from '@/components/authPopupModule';
 import AuthSuccessModule from '@/components/authSuccessPopupModule';
 import UiPopupErrors from '@/components/ui/uiPopupErrors';
 import CreateEditModule from '@/components/createEditModule.vue';
-import { computed } from 'vue';
+import { computed, watch, nextTick, ref, Ref } from 'vue';
 import { useStore } from 'vuex';
 const store = useStore();
 
+const modal: Ref<HTMLDivElement | null>= ref(null);
 const popupData = computed(() => {
   return {
     isActive: store.state.popup.isActive,
@@ -51,6 +56,16 @@ const handleClose = () => {
     store.commit('handlePopup', 'close');
   }, 400)
 }
+
+watch(async () => popupData.value.isActive, async () => {
+  if (!popupData.value.isActive || !modal.value) return;
+  await nextTick();
+  setTimeout(() => {
+    const firstInput = modal.value?.querySelector('input')
+    if (!firstInput) return;
+    firstInput.focus();
+  }, 50);
+})
 
 </script>
 

@@ -1,42 +1,35 @@
 <template>
   <header class='header'>
     <div class="container">
-      <authControls />
+      <AuthControls />
       <h2 class='header__logo'>Wordy</h2>
       <div class="header__right">
         <button @click.prevent='toggleCurrentLang' class="header__lang-toggle">{{ currentLang }}</button>
-        <button @click.prevent="createNew" class='header__add'>Добавить слово</button>
+        <button @click.prevent="createNew" class='header__add'>Add pair</button>
       </div>
     </div>
   </header>
 </template>
 
-<script>
-import authControls from "./authControls";
+<script setup lang="ts">
+import AuthControls from './authControls';
+import { useStore } from 'vuex';
+import { computed } from 'vue';
+const store = useStore();
 
-export default {
-  components: {
-    authControls,
-  },
-  data() {
-    return {}
-  },
-  computed: {
-    currentLang() {
-      return this.$store.state.lang
-    }
-  },
-  methods: {
-    createNew({commit}) {
-      this.$store.commit('handlePopup', {
-        type: 'create',
-      })
-    },
-    toggleCurrentLang({ dispatch }) {
-      this.$store.dispatch('changeLang', )
-    }
-  }
-};
+const currentLang = computed(() => {
+  return store.state.lang.toUpperCase();
+})
+
+const createNew = () => {
+  store.commit('handlePopup', {
+    type: 'create',
+  })
+}
+
+const toggleCurrentLang = () => {
+  store.dispatch('changeLang');
+}
 </script>
 
 <style scoped lang="scss">
@@ -66,7 +59,7 @@ export default {
       align-items: center;
       height: 30px;
       width: 200px;
-      background: $secondary-color;
+      background: $base-bkg-color;
       border: 2px solid $border-color;
       color: $btn-color;
       border-radius: 10px;
@@ -82,7 +75,7 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-      background: $secondary-color;
+      background: $base-bkg-color;
       border: 2px solid $border-color;
       color: $btn-color;
       border-radius: 10px;

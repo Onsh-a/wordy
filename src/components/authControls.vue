@@ -42,7 +42,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: $secondary-color;
+    background: $base-bkg-color;
     border: 2px solid $border-color;
     color: $btn-color;
     border-radius: 10px;

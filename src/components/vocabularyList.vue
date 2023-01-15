@@ -1,5 +1,10 @@
 <template>
   <div class="container">
+    <Pagination
+      :activePage="activePage"
+      :totalPaginationPages="totalPaginationPages"
+      @update-pagination="updatePaginationOffest"
+    />
     <div class='pair__container'>
       <VocabularyItem v-for='pair in getPaginatedVocabulary' :pair="pair" :key="pair._id"/>
       <div class='pair__not-found' v-if="getPaginatedVocabulary.length === 0 || getPaginatedVocabulary.length === 0">
@@ -10,11 +15,6 @@
         }}
       </div>
     </div>
-    <Pagination
-      :activePage="activePage"
-      :totalPaginationPages="totalPaginationPages"
-      @update-pagination="updatePaginationOffest"
-    />
   </div>
 </template>
 
@@ -22,15 +22,15 @@
 import VocabularyItem from '@/components/vocabularyItem.vue';
 import Pagination from '@/components/pagination.vue';
 import vocabularyPair from '@/types/vocabulary';
-import { computed, ref, ComputedRef } from 'vue';
+import {computed, ref, ComputedRef, watch } from 'vue';
 import { useStore } from 'vuex';
-
-const store = useStore();
-const DEFAULT_PAGINATION = 6;
 
 const props = defineProps<{
   vocabulary: vocabularyPair[]
 }>()
+
+const store = useStore();
+const DEFAULT_PAGINATION = 6;
 
 const searchData: ComputedRef<string> = computed(() => store.state.search);
 const isAscendingSort = computed(():string => store.state.ascending);
@@ -60,6 +60,11 @@ const getPaginatedVocabulary = computed(() => {
   const topBorder = paginationOffset.value + DEFAULT_PAGINATION;
   return preparedVocabulary.value.slice(paginationOffset.value, topBorder);
 })
+
+watch(() => store.state.lang, () => {
+  paginationOffset.value = 0;
+  activePage.value = 0;
+});
 </script>
 
 <style>

@@ -45,6 +45,8 @@ export default {
     display: flex;
     justify-content: space-between;
     border-radius: 5px 5px 0 0;
+    border: 1px solid black;
+    border-bottom: none;
 
     &__search {
       display: block;

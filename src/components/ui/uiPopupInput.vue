@@ -13,7 +13,7 @@
       ref="input"
       :value="word"
       type="text"
-      @input="handler"
+      @input="inputUpdated"
     />
   </div>
 </template>
@@ -27,14 +27,21 @@ const props = defineProps({
   handler: Function,
   isActive: Boolean,
 })
+const emit = defineEmits(['input'])
+
+const inputUpdated = (e:InputEvent) => {
+  if (!e.target) return;
+  emit('input', [props.part, (e.target as HTMLInputElement).value]);
+}
+
 const input: Ref<HTMLInputElement | null> = ref(null);
-watch(() => props.isActive, async (val) => {
-  if (val) {
-    setTimeout(() => {
-      if (!input.value) return;
-      input.value.focus();
-    }, 400)
-  }
-})
+// watch(() => props.isActive, async (val) => {
+//   if (val) {
+//     setTimeout(() => {
+//       if (!input.value) return;
+//       input.value.focus();
+//     }, 400)
+//   }
+// })
 </script>
 

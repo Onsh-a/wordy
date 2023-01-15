@@ -75,6 +75,7 @@ const handleAuth = (authType: string) => {
 
     &:hover {
       background-color: $secondary-color;
+      color: $base-bkg-color;
     }
 
     &:not(:last-child) {
